@@ -1,5 +1,7 @@
 # DSGA1004 - BIG DATA
-## Homework 3: 
+## Homework 4: 
+
+Note: This is a 2-part assignment. The first part is about Spark, the second part about Parquet.
 
 ### Contents:
  - [Part 1. Spark on Dataproc](#part-1-spark-on-dataproc)
@@ -19,9 +21,9 @@
 ---
 
 
-## Part 1: a) Spark on Dataproc
+## Part 1: Spark on Dataproc
 
-Note: This part of the assignment goes with the lecture on Spark we just did on Monday 02/27. Do not start part b) yet. Part b) deals with Parquet and won't really make sense until the lecture on column-oriented storage on 03/06. 
+Note: This part of the assignment goes with the lecture on Spark.
 
 In this assignment, we will be using Spark to analyze data on the Dataproc Cluster.
 For this assignment, you will be filling out the [lab_3_starter_code.py](./part_1_spark/lab_3_starter_code.py) in the `part_1_spark` folder and [Report.md](/Report.md) file found in the root of this repository.
@@ -194,10 +196,10 @@ and the `tracks` file should have columns
   Modify this query to return only the top 10 most popular terms, and again for the bottom 10.
   Include each query and the tables for the top 10 most popular terms and the 10 least popular terms in your response. 
 
-## Part 2: b) Storage Optimization
+## Part 2: Storage Optimization
 
 In this part of the assignment, you will be comparing the speed of Spark queries against DataFrames backed by either CSV or Parquet file stores, and optimizing the storage to speed up queries.
-Note: This part of the assignment won't really make sense until the lecture on column-oriented storage on 03/06. 
+ 
 
 
 ### 2.1 Getting started
