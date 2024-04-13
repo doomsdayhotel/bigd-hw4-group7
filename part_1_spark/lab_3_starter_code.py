@@ -27,7 +27,7 @@ def main(spark, userID):
     boats.printSchema()
     print('Printing sailors inferred schema')
     sailors.printSchema()
-    # Why does sailors already have a specified schema?
+    # Why does sailors already have a specified schema? -> JSON
 
     print('Reading boats.txt and specifying schema')
     boats = spark.read.csv('boats.txt', schema='bid INT, bname STRING, color STRING')
@@ -52,6 +52,23 @@ def main(spark, userID):
 
     #question_1_query = ....
 
+    #q1: sailors.filter(sailors.age > 40).select(sailors.sid, sailors.sname, sailors.age) in SQL 
+    # select sailors older than 40
+    res1 = spark.sql('SELECT sid, sname, age FROM sailors WHERE age > 40')
+    res1.show()
+
+    #q2: spark.sql('SELECT sid, COUNT(bid) from reserves WHERE bid != 101 GROUP BY sid') in object interface
+    # load data and create temp view
+    reserves = spark.read.json(f'hdfs:/user/{userID}/reserves.json')
+    reserves.createOrReplaceTempView('reserves')
+
+    res2 = reserves.filter(reserves.bid != 101).groupBy("sid").count()
+    res2.show()
+
+    #q3: how many distinct boats did each sailor reserve w/ a single SQL query
+    #print df including the sailor's id, name, and the count of distinct boats
+    res3 = spark.sql('SELECT s.sid, s.sname, COUNT(DISTINCT r.bid) AS distinct_boats_count FROM sailors s JOIN reserves r ON s.sid = r.sid GROUP BY s.sid, s.sname')   
+    res3.show()
 
 # Only enter this block if we're in main
 if __name__ == "__main__":
