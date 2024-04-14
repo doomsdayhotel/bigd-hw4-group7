@@ -106,7 +106,7 @@ if __name__ == "__main__":
     datasets = [
         'hdfs:/user/pw44_nyu_edu/peopleSmall.csv',
         'hdfs:/user/pw44_nyu_edu/peopleModerate.csv',
-        'hdfs:/user/pw44_nyu_edu/peopleBig.csv'
+        # 'hdfs:/user/pw44_nyu_edu/peopleBig.csv'
     ]
     
     # Call main function with the list of datasets
