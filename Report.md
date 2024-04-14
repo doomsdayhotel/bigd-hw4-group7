@@ -185,7 +185,66 @@ ten least popular:
 What to include in your report:
 
 - Tables of all numerical results (min, max, median) for each query/size/storage combination for part 2.3, 2.4 and 2.5.
+
+1. For csv_sum_orders:
+
+   Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleSmall.csv:
+   {'min_time': 0.2010793685913086, 'max_time': 5.233441114425659, 'median_time': 0.2547576427459717}
+
+   Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleModerate.csv:
+   {'min_time': 0.3351597785949707, 'max_time': 3.987332344055176, 'median_time': 0.38936924934387207}
+
+   Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleBig.csv:
+   {'min_time': 14.800785303115845, 'max_time': 15.661024570465088, 'median_time': 14.9531090259552}
+
+   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+   | Dataset|hdfs:/user/pw44_nyu_edu/peopleSmall.csv|hdfs:/user/pw44_nyu_edu/peopleModerate.csv|hdfs:/user/pw44_nyu_edu/peopleBig.csv|
+   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+   | min_time| 0.2010793685913086| 0.3351597785949707| 14.800785303115845|
+   | max_time| 5.233441114425659| 3.987332344055176| 15.661024570465088|
+   |median_time| 0.2547576427459717| 0.38936924934387207| 14.9531090259552|
+   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+
+2. for csv_big_spender:
+
+   Times to run csv_big_spender 25 times on hdfs:/user/pw44_nyu_edu/peopleSmall.csv:
+   {'min_time': 0.1255478858947754, 'max_time': 4.697279453277588, 'median_time': 0.16434073448181152}
+
+   Times to run csv_big_spender 25 times on hdfs:/user/pw44_nyu_edu/peopleModerate.csv:
+   {'min_time': 0.21167874336242676, 'max_time': 3.172349691390991, 'median_time': 0.254932165145874}
+
+   Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleBig.csv:
+   {'min_time': 10.536566972732544, 'max_time': 11.00087833404541, 'median_time': 10.774402618408203}
+
+   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+   | Dataset|hdfs:/user/pw44_nyu_edu/peopleSmall.csv|hdfs:/user/pw44_nyu_edu/peopleModerate.csv|hdfs:/user/pw44_nyu_edu/peopleBig.csv|
+   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+   | min_time| 0.1255478858947754| 0.21167874336242676| 10.536566972732544|
+   | max_time| 4.697279453277588| 3.172349691390991| 11.00087833404541|
+   |median_time| 0.16434073448181152| 0.254932165145874| 10.774402618408203|
+   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+
+3. for csv_brian:
+
+   Times to run csv_brian 25 times on hdfs:/user/pw44_nyu_edu/peopleSmall.csv:
+   {'min_time': 0.12918543815612793, 'max_time': 4.6246888637542725, 'median_time': 0.15778398513793945}
+
+   Times to run csv_brian 25 times on hdfs:/user/pw44_nyu_edu/peopleModerate.csv:
+   {'min_time': 0.2991602420806885, 'max_time': 3.731170892715454, 'median_time': 0.3529810905456543}
+
+   Times to run csv_brian 25 times on hdfs:/user/pw44_nyu_edu/peopleBig.csv:
+   {'min_time': 11.05838680267334, 'max_time': 11.341872453689575, 'median_time': 11.13907504081726}
+
+   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+   | Dataset|hdfs:/user/pw44_nyu_edu/peopleSmall.csv|hdfs:/user/pw44_nyu_edu/peopleModerate.csv|hdfs:/user/pw44_nyu_edu/peopleBig.csv|
+   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+   | min_time| 0.12918543815612793| 0.2991602420806885| 11.05838680267334|
+   | max_time| 4.6246888637542725| 3.731170892715454| 11.341872453689575|
+   |median_time| 0.15778398513793945| 0.3529810905456543| 11.13907504081726|
+   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+
 - How do the results in parts 2.3, 2.4, and 2.5 compare?
+
 - What did you try in part 2.5 to improve performance for each query?
 - What worked, and what didn't work?
 
