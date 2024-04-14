@@ -132,6 +132,7 @@ Include each query and the tables for the top 10 most popular terms and the 10 l
 
 ten most popular:
 
+```python
     most_popular = artist_term.join(tracks, "artistID") \
     .groupBy("term") \
     .agg(countDistinct("trackID").alias("distinct_tracks_count")) \
@@ -139,6 +140,7 @@ ten most popular:
     .limit(10)
 
     most_popular.show()
+```
 
     +----------------+---------------------+
     |            term|distinct_tracks_count|
@@ -157,6 +159,7 @@ ten most popular:
 
 ten least popular:
 
+```python
     least_popular = artist_term.join(tracks, "artistID") \
         .groupBy("term") \
         .agg(countDistinct("trackID").alias("distinct_tracks_count")) \
@@ -164,6 +167,7 @@ ten least popular:
         .limit(10)
 
     least_popular.show()
+```
 
     +--------------------+---------------------+
     |                term|distinct_tracks_count|
