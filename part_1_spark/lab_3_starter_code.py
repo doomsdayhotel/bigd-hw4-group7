@@ -8,6 +8,9 @@ import os
 
 # And pyspark.sql to get the spark session
 from pyspark.sql import SparkSession
+# from pyspark.sql.types import StructType, StructField, IntegerType, StringType, FloatType 
+# from pyspark.sql.functions import expr
+from pyspark.sql.functions import countDistinct
 
 
 def main(spark, userID):
@@ -52,6 +55,8 @@ def main(spark, userID):
 
     #question_1_query = ....
 
+    #1.5
+
     #q1: sailors.filter(sailors.age > 40).select(sailors.sid, sailors.sname, sailors.age) in SQL 
     # select sailors older than 40
     res1 = spark.sql('SELECT sid, sname, age FROM sailors WHERE age > 40')
@@ -70,6 +75,56 @@ def main(spark, userID):
     res3 = spark.sql('SELECT s.sid, s.sname, COUNT(DISTINCT r.bid) AS distinct_boats_count FROM sailors s JOIN reserves r ON s.sid = r.sid GROUP BY s.sid, s.sname')   
     res3.show()
 
+
+    #1.6
+
+    #load datasets, define schema, and create temp views
+    artist_term = spark.read.csv(f'hdfs:/user/{userID}/artist_term.csv', schema='artistID STRING, term STRING')
+    tracks = spark.read.csv(f'hdfs:/user/{userID}/tracks.csv', schema= 'trackID STRING, title STRING, release STRING, year INT, duration FLOAT, artistID STRING')
+
+    artist_term.createOrReplaceTempView("artist_term")
+    tracks.createOrReplaceTempView("tracks")
+
+    #q4
+    #for each artist term, compute the median year of release, maximum track duration, and the total number of artists for that term (by ID). 
+    #What are the results for the ten terms with the shortest average track durations?
+    res4 = spark.sql("""
+      SELECT 
+          at.term,
+          PERCENTILE_APPROX(t.year, 0.5) AS median_year_of_release,
+          MAX(t.duration) AS maximum_track_duration,
+          COUNT(DISTINCT at.artistID) AS total_artists
+      FROM 
+          artist_term at
+      JOIN 
+          tracks t ON at.artistID = t.artistID
+      GROUP BY 
+          at.term
+      ORDER BY 
+          AVG(t.duration) ASC
+      LIMIT 10
+                     """)
+    res4.show()
+
+    #q5
+    #find the number of distinct tracks associated (through artistID) to each term. 
+    #return only the top 10 most popular terms, and again for the bottom 10. 
+    most_popular = artist_term.join(tracks, "artistID") \
+        .groupBy("term") \
+        .agg(countDistinct("trackID").alias("distinct_tracks_count")) \
+        .orderBy("distinct_tracks_count", ascending=False) \
+        .limit(10)
+
+    least_popular = artist_term.join(tracks, "artistID") \
+        .groupBy("term") \
+        .agg(countDistinct("trackID").alias("distinct_tracks_count")) \
+        .orderBy("distinct_tracks_count", ascending=True) \
+        .limit(10)
+
+    most_popular.show()
+    least_popular.show()
+
+    
 # Only enter this block if we're in main
 if __name__ == "__main__":
 
