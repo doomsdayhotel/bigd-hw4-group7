@@ -16,7 +16,7 @@ import pandas as pd
 from pyspark.sql import SparkSession
 
 
-def csv_big_spender(spark, datasets):
+def csv_big_spender(spark, file_path):
     '''Construct a basic query on the people dataset
 
     This function returns a uncomputed dataframe that
@@ -45,7 +45,7 @@ def csv_big_spender(spark, datasets):
     return result
 
 
-def main(spark, file_path):
+def main(spark, datasets):
     '''Main routine for Lab Solutions
     Parameters
     ----------
