@@ -10,6 +10,7 @@ Usage:
 import sys
 import bench
 import numpy as np
+import pandas as pd
 
 # And pyspark.sql to get the spark session
 from pyspark.sql import SparkSession
