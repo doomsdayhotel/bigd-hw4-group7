@@ -74,10 +74,11 @@ def main(spark, datasets):
 
     # Loop over the datasets and collect timing information
     for file_path in datasets:
-        df = csv_brian(spark, file_path)
+        #to make sure the query successfully ran. **already checked.** 
+        # df = csv_brian(spark, file_path)
         
-        print(f"Results for dataset {file_path}:")
-        df.show()
+        # print(f"Results for dataset {file_path}:")
+        # df.show()
 
 
         times = bench.benchmark(spark, 25, csv_brian, file_path)
@@ -114,7 +115,7 @@ if __name__ == "__main__":
     datasets = [
         'hdfs:/user/pw44_nyu_edu/peopleSmall.csv',
         'hdfs:/user/pw44_nyu_edu/peopleModerate.csv',
-        # 'hdfs:/user/pw44_nyu_edu/peopleBig.csv'
+        'hdfs:/user/pw44_nyu_edu/peopleBig.csv'
     ]
     
     # Call main function with the list of datasets
