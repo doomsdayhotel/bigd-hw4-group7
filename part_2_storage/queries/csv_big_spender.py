@@ -56,7 +56,7 @@ def main(spark, file_path):
     max_time = max(times)
     median_time = np.median(times)
 
-    print(f'Times to run Basic Query 25 times on {file_path}:')
+    print(f'Times to run csv_big_spender 25 times on {file_path}:')
     print(times)
     print(f'Minimum Time: {min_time}')
     print(f'Maximum Time: {max_time}')

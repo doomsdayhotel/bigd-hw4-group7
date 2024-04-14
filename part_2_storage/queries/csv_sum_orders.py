@@ -56,13 +56,13 @@ def main(spark, file_path):
     max_time = max(times)
     median_time = np.median(times)
 
-    print(f'Times to run Basic Query 25 times on {file_path}:')
+    print(f'Times to run csv_sum_orders 25 times on {file_path}:')
     print(times)
     print(f'Minimum Time: {min_time}')
     print(f'Maximum Time: {max_time}')
     print(f'Median Time: {median_time}')
     
-    df = csv_sum_order(spark, file_path)
+    df = csv_sum_orders(spark, file_path)
     df.show()
 
 # Only enter this block if we're in main
