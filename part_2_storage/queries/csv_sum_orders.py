@@ -85,6 +85,6 @@ if __name__ == "__main__":
     spark = SparkSession.builder.appName('part2').getOrCreate()
 
     # Get file_path for dataset to analyze
-    file_path = sys.argv[1]
+    # file_path = sys.argv[1]
 
     main(spark, file_path)
