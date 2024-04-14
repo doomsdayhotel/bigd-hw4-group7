@@ -43,40 +43,43 @@ def csv_sum_orders(spark, file_path):
     return result
 
 
-def main(spark, file_path):
+def main(spark, datasets):
     '''Main routine for Lab Solutions
     Parameters
     ----------
     spark : SparkSession object
     which_dataset : string, size of dataset to be analyzed
     '''
-    datasets = ['hdfs:/user/pw44_nyu_edu/peopleSmall.csv', 'hdfs:/user/pw44_nyu_edu/peopleModerate.csv', 'hdfs:/user/pw44_nyu_edu/peopleBig.csv']
 
-    results_df = pd.DataFrame(columns=datasets, index=['min_time', 'max_time', 'median_time'])
+    # times = bench.benchmark(spark, 25, csv_sum_orders, file_path)
 
+    # min_time = min(times)
+    # max_time = max(times)
+    # median_time = np.median(times)
+
+    # print(f'Times to run csv_sum_orders 25 times on {file_path}:')
+    # print(times)
+    # print(f'Minimum Time: {min_time}')
+    # print(f'Maximum Time: {max_time}')
+    # print(f'Median Time: {median_time}')
+    
+    # #to make sure the query ran successfully
+    # df = csv_sum_orders(spark, file_path)
+    # df.show()
+
+    timing_results = {}
+
+    # Loop over the datasets and collect timing information
     for file_path in datasets:
-
         times = bench.benchmark(spark, 25, csv_sum_orders, file_path)
-
-        min_time = min(times)
-        max_time = max(times)
-        median_time = np.median(times)
-
-        results_df[file_path]['min_time'] = min(times)
-        results_df[file_path]['max_time'] = max(times)
-        results_df[file_path]['median_time'] = np.median(times)
-
+        timing_results[file_path] = {
+            'min_time': min(times),
+            'max_time': max(times),
+            'median_time': np.median(times)
+        }
+        # If you want to see the results immediately after computation
         print(f'Times to run csv_sum_orders 25 times on {file_path}:')
-        print(times)
-        print(f'Minimum Time: {min_time}')
-        print(f'Maximum Time: {max_time}')
-        print(f'Median Time: {median_time}')
-
-        print(results_df)
-        
-        #to make sure the query ran successfully
-        df = csv_sum_orders(spark, file_path)
-        df.show()
+        print(timing_results[file_path])
 
 # Only enter this block if we're in main
 if __name__ == "__main__":
@@ -87,4 +90,14 @@ if __name__ == "__main__":
     # Get file_path for dataset to analyze
     # file_path = sys.argv[1]
 
-    main(spark, file_path)
+    # main(spark, file_path)
+
+    # List of datasets to process
+    datasets = [
+        'hdfs:/user/pw44_nyu_edu/peopleSmall.csv',
+        'hdfs:/user/pw44_nyu_edu/peopleModerate.csv',
+        'hdfs:/user/pw44_nyu_edu/peopleBig.csv'
+    ]
+    
+    # Call main function with the list of datasets
+    main(spark, datasets)
