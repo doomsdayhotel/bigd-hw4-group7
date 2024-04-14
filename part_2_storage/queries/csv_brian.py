@@ -89,7 +89,7 @@ def main(spark, datasets):
             'median_time': np.median(times)
         }
         # If you want to see the results immediately after computation
-        print(f'Times to run csv_sum_orders 25 times on {file_path}:')
+        print(f'Times to run csv_brian 25 times on {file_path}:')
         print(timing_results[file_path])
 
     pd_df = pd.DataFrame(timing_results)
