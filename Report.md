@@ -186,62 +186,123 @@ What to include in your report:
 
 - Tables of all numerical results (min, max, median) for each query/size/storage combination for part 2.3, 2.4 and 2.5.
 
-1. For csv_sum_orders:
+  2.3:
 
-   Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleSmall.csv:
-   {'min_time': 0.2010793685913086, 'max_time': 5.233441114425659, 'median_time': 0.2547576427459717}
+        1. For csv_sum_orders:
 
-   Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleModerate.csv:
-   {'min_time': 0.3351597785949707, 'max_time': 3.987332344055176, 'median_time': 0.38936924934387207}
+            Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleSmall.csv:
+            {'min_time': 0.2010793685913086, 'max_time': 5.233441114425659, 'median_time': 0.2547576427459717}
 
-   Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleBig.csv:
-   {'min_time': 14.800785303115845, 'max_time': 15.661024570465088, 'median_time': 14.9531090259552}
+            Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleModerate.csv:
+            {'min_time': 0.3351597785949707, 'max_time': 3.987332344055176, 'median_time': 0.38936924934387207}
 
-   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
-   | Dataset|hdfs:/user/pw44_nyu_edu/peopleSmall.csv|hdfs:/user/pw44_nyu_edu/peopleModerate.csv|hdfs:/user/pw44_nyu_edu/peopleBig.csv|
-   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
-   | min_time| 0.2010793685913086| 0.3351597785949707| 14.800785303115845|
-   | max_time| 5.233441114425659| 3.987332344055176| 15.661024570465088|
-   |median_time| 0.2547576427459717| 0.38936924934387207| 14.9531090259552|
-   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+            Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleBig.csv:
+            {'min_time': 14.800785303115845, 'max_time': 15.661024570465088, 'median_time': 14.9531090259552}
 
-2. for csv_big_spender:
+            +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+            | Dataset|hdfs:/user/pw44_nyu_edu/peopleSmall.csv|hdfs:/user/pw44_nyu_edu/peopleModerate.csv|hdfs:/user/pw44_nyu_edu/peopleBig.csv|
+            +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+            | min_time  | 0.2010793685913086                    | 0.3351597785949707                       | 14.800785303115845                  |
+            | max_time  | 5.233441114425659                     | 3.987332344055176                        | 15.661024570465088                  |
+            |median_time| 0.2547576427459717                    | 0.38936924934387207                      | 14.9531090259552                    |
+            +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
 
-   Times to run csv_big_spender 25 times on hdfs:/user/pw44_nyu_edu/peopleSmall.csv:
-   {'min_time': 0.1255478858947754, 'max_time': 4.697279453277588, 'median_time': 0.16434073448181152}
+          2. for csv_big_spender:
 
-   Times to run csv_big_spender 25 times on hdfs:/user/pw44_nyu_edu/peopleModerate.csv:
-   {'min_time': 0.21167874336242676, 'max_time': 3.172349691390991, 'median_time': 0.254932165145874}
+            Times to run csv_big_spender 25 times on hdfs:/user/pw44_nyu_edu/peopleSmall.csv:
+            {'min_time': 0.1255478858947754, 'max_time': 4.697279453277588, 'median_time': 0.16434073448181152}
 
-   Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleBig.csv:
-   {'min_time': 10.536566972732544, 'max_time': 11.00087833404541, 'median_time': 10.774402618408203}
+            Times to run csv_big_spender 25 times on hdfs:/user/pw44_nyu_edu/peopleModerate.csv:
+            {'min_time': 0.21167874336242676, 'max_time': 3.172349691390991, 'median_time': 0.254932165145874}
 
-   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
-   | Dataset|hdfs:/user/pw44_nyu_edu/peopleSmall.csv|hdfs:/user/pw44_nyu_edu/peopleModerate.csv|hdfs:/user/pw44_nyu_edu/peopleBig.csv|
-   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
-   | min_time| 0.1255478858947754| 0.21167874336242676| 10.536566972732544|
-   | max_time| 4.697279453277588| 3.172349691390991| 11.00087833404541|
-   |median_time| 0.16434073448181152| 0.254932165145874| 10.774402618408203|
-   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+            Times to run csv_sum_orders 25 times on hdfs:/user/pw44_nyu_edu/peopleBig.csv:
+            {'min_time': 10.536566972732544, 'max_time': 11.00087833404541, 'median_time': 10.774402618408203}
 
-3. for csv_brian:
+            +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+            | Dataset|hdfs:/user/pw44_nyu_edu/peopleSmall.csv|hdfs:/user/pw44_nyu_edu/peopleModerate.csv|hdfs:/user/pw44_nyu_edu/peopleBig.csv|
+            +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+            | min_time  | 0.1255478858947754                    | 0.21167874336242676                      | 10.536566972732544                  |
+            | max_time  | 4.697279453277588                     | 3.172349691390991                        | 11.00087833404541                   |
+            |median_time| 0.16434073448181152                   | 0.254932165145874                        | 10.774402618408203                  |
+            +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
 
-   Times to run csv_brian 25 times on hdfs:/user/pw44_nyu_edu/peopleSmall.csv:
-   {'min_time': 0.12918543815612793, 'max_time': 4.6246888637542725, 'median_time': 0.15778398513793945}
+          3. for csv_brian:
 
-   Times to run csv_brian 25 times on hdfs:/user/pw44_nyu_edu/peopleModerate.csv:
-   {'min_time': 0.2991602420806885, 'max_time': 3.731170892715454, 'median_time': 0.3529810905456543}
+            Times to run csv_brian 25 times on hdfs:/user/pw44_nyu_edu/peopleSmall.csv:
+            {'min_time': 0.12918543815612793, 'max_time': 4.6246888637542725, 'median_time': 0.15778398513793945}
 
-   Times to run csv_brian 25 times on hdfs:/user/pw44_nyu_edu/peopleBig.csv:
-   {'min_time': 11.05838680267334, 'max_time': 11.341872453689575, 'median_time': 11.13907504081726}
+            Times to run csv_brian 25 times on hdfs:/user/pw44_nyu_edu/peopleModerate.csv:
+            {'min_time': 0.2991602420806885, 'max_time': 3.731170892715454, 'median_time': 0.3529810905456543}
 
-   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
-   | Dataset|hdfs:/user/pw44_nyu_edu/peopleSmall.csv|hdfs:/user/pw44_nyu_edu/peopleModerate.csv|hdfs:/user/pw44_nyu_edu/peopleBig.csv|
-   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
-   | min_time| 0.12918543815612793| 0.2991602420806885| 11.05838680267334|
-   | max_time| 4.6246888637542725| 3.731170892715454| 11.341872453689575|
-   |median_time| 0.15778398513793945| 0.3529810905456543| 11.13907504081726|
-   +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+            Times to run csv_brian 25 times on hdfs:/user/pw44_nyu_edu/peopleBig.csv:
+            {'min_time': 11.05838680267334, 'max_time': 11.341872453689575, 'median_time': 11.13907504081726}
+
+            +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+            | Dataset|hdfs:/user/pw44_nyu_edu/peopleSmall.csv|hdfs:/user/pw44_nyu_edu/peopleModerate.csv|hdfs:/user/pw44_nyu_edu/peopleBig.csv|
+            +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+            | min_time  | 0.12918543815612793                   | 0.2991602420806885                       | 11.05838680267334                   |
+            | max_time  | 4.6246888637542725                    | 3.731170892715454                        | 11.341872453689575                  |
+            |median_time| 0.15778398513793945                   | 0.3529810905456543                       | 11.13907504081726                   |
+            +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
+
+  2.4:
+
+        1. For pq_sum_orders:
+
+            Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmall.parquet:
+            {'min_time': 0.19920039176940918, 'max_time': 3.4373297691345215, 'median_time': 0.23922491073608398}
+
+            Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleModerate.parquet:
+            {'min_time': 0.3385908603668213, 'max_time': 0.7846357822418213, 'median_time': 0.41255784034729004}
+
+            Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleBig.parquet:
+            {'min_time': 2.1765975952148438, 'max_time': 5.484586954116821, 'median_time': 2.4821882247924805}
+
+            +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
+            |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmall.parquet|hdfs:/user/qy561_nyu_edu/peopleModerate.parquet|hdfs:/user/qy561_nyu_edu/peopleBig.parquet|
+            +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
+            |   min_time|                         0.19920039176940918|                             0.3385908603668213|                        2.1765975952148438|
+            |   max_time|                          3.4373297691345215|                             0.7846357822418213|                         5.484586954116821|
+            |median_time|                         0.23922491073608398|                            0.41255784034729004|                        2.4821882247924805|
+            +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
+
+        2. For pq_big_spender:
+
+            Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleSmall.parquet:
+            {'min_time': 0.12046456336975098, 'max_time': 4.524384498596191, 'median_time': 0.14907360076904297}
+
+            Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleModerate.parquet:
+            {'min_time': 0.12091898918151855, 'max_time': 0.23901724815368652, 'median_time': 0.1421031951904297}
+
+            Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleBig.parquet:
+            {'min_time': 0.2972445487976074, 'max_time': 2.4234678745269775, 'median_time': 0.37487244606018066}
+
+            +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
+            |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmall.parquet|hdfs:/user/qy561_nyu_edu/peopleModerate.parquet|hdfs:/user/qy561_nyu_edu/peopleBig.parquet|
+            +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
+            |   min_time|                         0.12046456336975098|                            0.12091898918151855|                        0.2972445487976074|
+            |   max_time|                           4.524384498596191|                            0.23901724815368652|                        2.4234678745269775|
+            |median_time|                         0.14907360076904297|                             0.1421031951904297|                       0.37487244606018066|
+            +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
+
+        3. For pq_brian:
+
+            Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleSmall.parquet:
+            {'min_time': 0.1450357437133789, 'max_time': 2.3414812088012695, 'median_time': 0.2513551712036133}
+
+            Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleModerate.parquet:
+            {'min_time': 0.1476607322692871, 'max_time': 0.47472572326660156, 'median_time': 0.2550804615020752}
+
+            Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleBig.parquet:
+            {'min_time': 3.657675266265869, 'max_time': 4.881026744842529, 'median_time': 4.08001971244812}
+
+            +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
+            |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmall.parquet|hdfs:/user/qy561_nyu_edu/peopleModerate.parquet|hdfs:/user/qy561_nyu_edu/peopleBig.parquet|
+            +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
+            |   min_time|                          0.1450357437133789|                             0.1476607322692871|                         3.657675266265869|
+            |   max_time|                          2.3414812088012695|                            0.47472572326660156|                         4.881026744842529|
+            |median_time|                          0.2513551712036133|                             0.2550804615020752|                          4.08001971244812|
+            +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
 
 - How do the results in parts 2.3, 2.4, and 2.5 compare?
 
