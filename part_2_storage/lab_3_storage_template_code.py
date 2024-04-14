@@ -24,9 +24,15 @@ def main(spark):
     #####--------------YOUR CODE STARTS HERE--------------#####
 
     #Use this template to as much as you want for your parquet saving and optimizations!
+    # Read the CSV files
+    df_small = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleSmall.csv', header=True, inferSchema=True)
+    df_moderate = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleModerate.csv', header=True, inferSchema=True)
+    df_big = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleBig.csv', header=True, inferSchema=True)
 
-
-
+    # Convert to Parquet and save to HDFS directory
+    df_small.write.parquet('hdfs:/user/qy561_nyu_edu/peopleSmall.parquet')
+    df_moderate.write.parquet('hdfs:/user/qy561_nyu_edu/peopleModerate.parquet')
+    df_big.write.parquet('hdfs:/user/qy561_nyu_edu/peopleBig.parquet')
 
 # Only enter this block if we're in main
 if __name__ == "__main__":
