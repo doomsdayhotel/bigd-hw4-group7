@@ -251,6 +251,8 @@ What to include in your report:
 
   2.4:
 
+  \*\* I used the template to convert the csv files to parquet and saved to my hdfs direcotry, named the script `convert_csv_to_parquet.py`.
+
         1. For pq_sum_orders:
 
             Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmall.parquet:
