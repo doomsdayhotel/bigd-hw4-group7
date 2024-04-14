@@ -63,15 +63,16 @@ def main(spark, datasets):
     # print(f'Maximum Time: {max_time}')
     # print(f'Median Time: {median_time}')
     
-    # #to make sure the query ran successfully
-    # df = csv_sum_orders(spark, file_path)
-    # df.show()
+    #to make sure the query ran successfully
+    df = csv_sum_orders(spark, file_path)
+    df.show()
 
     timing_results = {}
 
     # Loop over the datasets and collect timing information
     for file_path in datasets:
         times = bench.benchmark(spark, 25, csv_sum_orders, file_path)
+
         timing_results[file_path] = {
             'min_time': min(times),
             'max_time': max(times),
@@ -80,6 +81,14 @@ def main(spark, datasets):
         # If you want to see the results immediately after computation
         print(f'Times to run csv_sum_orders 25 times on {file_path}:')
         print(timing_results[file_path])
+
+        pd_df = pd.DataFrame(timing_results).transpose()
+    
+        pd_df.reset_index(inplace=True)
+        pd_df.rename(columns={'index': 'Dataset'}, inplace=True)       
+
+        spark_df = spark.createDataFrame(pd_df)
+        spark_df.show() 
 
 # Only enter this block if we're in main
 if __name__ == "__main__":
@@ -91,6 +100,7 @@ if __name__ == "__main__":
     # file_path = sys.argv[1]
 
     # main(spark, file_path)
+
 
     # List of datasets to process
     datasets = [
