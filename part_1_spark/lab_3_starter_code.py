@@ -93,6 +93,7 @@ def main(spark, userID):
           at.term,
           PERCENTILE_APPROX(t.year, 0.5) AS median_year_of_release,
           MAX(t.duration) AS maximum_track_duration,
+          AVG(t.duration) AS average_track_duration
           COUNT(DISTINCT at.artistID) AS total_artists
       FROM 
           artist_term at
@@ -124,7 +125,7 @@ def main(spark, userID):
     most_popular.show()
     least_popular.show()
 
-    
+
 # Only enter this block if we're in main
 if __name__ == "__main__":
 
