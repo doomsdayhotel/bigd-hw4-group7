@@ -64,8 +64,8 @@ def main(spark, datasets):
     # print(f'Median Time: {median_time}')
     
     #to make sure the query ran successfully
-    df = csv_sum_orders(spark, file_path)
-    df.show()
+    # df = csv_sum_orders(spark, file_path)
+    # df.show()
 
     timing_results = {}
 
