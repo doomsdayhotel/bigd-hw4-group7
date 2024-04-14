@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''Starter Pyspark Script for students to complete for their Lab 3 Assignment.
 Usage:
-    $ spark-submit lab_3_starter_code.py
+    $ spark-submit local_lab3.py
 '''
 import os
 
@@ -20,10 +20,10 @@ def main(spark, userID):
     userID : string, userID of student to find files in HDFS
     '''
     print('Lab 3 Example dataframe loading and SQL query')
-
+    
     # Load the boats.txt and sailors.json data into DataFrame
-    boats = spark.read.csv(f'hdfs:/user/{userID}/boats.txt')
-    sailors = spark.read.json(f'hdfs:/user/{userID}/sailors.json')
+    boats = spark.read.csv(f'/Users/lvxinyuan/me/1-Projects/NYU/1-Courses/24_Spring_Big Data/hw/homework-4-g7/boats.txt')
+    sailors = spark.read.json(f'/Users/lvxinyuan/me/1-Projects/NYU/1-Courses/24_Spring_Big Data/hw/homework-4-g7/sailors.json')
 
     print('Printing boats inferred schema')
     boats.printSchema()
@@ -36,6 +36,11 @@ def main(spark, userID):
 
     print('Printing boats with specified schema')
     boats.printSchema()
+
+    # Iris test
+    # print("Iris test")
+    # boats.show()
+    # sailors.show()
 
     # Give the dataframe a temporary view so we can run SQL queries
     boats.createOrReplaceTempView('boats')
@@ -51,9 +56,9 @@ def main(spark, userID):
 
     #make sure to load reserves.json, artist_term.csv, and tracks.csv
     #For the CSVs, make sure to specify a schema!
-
+    
     # Loading Data for Q1~Q3
-    reserves = spark.read.json(f'hdfs:/user/{userID}/reserves.json')
+    reserves = spark.read.json(f'/Users/lvxinyuan/me/1-Projects/NYU/1-Courses/24_Spring_Big Data/hw/homework-4-g7/reserves.json')
     print('Printing reserves inferred schema')
     reserves.printSchema()
     reserves.createOrReplaceTempView('reserves')
@@ -87,12 +92,12 @@ def main(spark, userID):
     question_3_query.show()
 
     # Loading Data for Q4~Q5
-    artist_term = spark.read.csv(f'hdfs:/user/{userID}/artist_term.csv', schema='artistID STRING, term STRING')
+    artist_term = spark.read.csv(f'/Users/lvxinyuan/me/1-Projects/NYU/1-Courses/24_Spring_Big Data/hw/homework-4-g7/artist_term.csv', schema='artistID STRING, term STRING')
     print('Printing artist_term inferred schema')
     artist_term.printSchema()
     artist_term.createOrReplaceTempView('artist_term')
 
-    tracks = spark.read.csv(f'hdfs:/user/{userID}/tracks.csv', schema='trackID STRING, title STRING, release STRING, year bigINT, duration DOUBLE, artistID STRING')
+    tracks = spark.read.csv(f'/Users/lvxinyuan/me/1-Projects/NYU/1-Courses/24_Spring_Big Data/hw/homework-4-g7/tracks.csv', schema='trackID STRING, title STRING, release STRING, year bigINT, duration DOUBLE, artistID STRING')
     print('Printing tracks inferred schema')
     tracks.printSchema()
     tracks.createOrReplaceTempView('tracks')
@@ -138,44 +143,44 @@ def main(spark, userID):
     q4results.show()
 
     print('Q4 SQL')
-    question_4_query = spark.sql(
-        '''
-        WITH RankedReleases AS (
-            SELECT
-                t.term,
-                tr.year,
-                ROW_NUMBER() OVER (PARTITION BY t.term ORDER BY tr.year DESC, tr.trackID DESC) AS desc_row_num,
-                ROW_NUMBER() OVER (PARTITION BY t.term ORDER BY tr.year ASC, tr.trackID ASC) AS asc_row_num
-            FROM tracks AS tr
-            JOIN artist_term AS t ON tr.artistID = t.artistID
-            WHERE tr.year != 0
-        )
-        , MedianYearTerm AS (
-            SELECT
-                term,
-                CAST(ROUND(AVG(year),0) AS INT) as median_year
-            FROM RankedReleases
-            WHERE
-                asc_row_num = desc_row_num OR
-                asc_row_num = desc_row_num - 1 OR 
-                asc_row_num = desc_row_num + 1 
-            GROUP BY term
-            ORDER BY median_year DESC
-        )
-        SELECT 
-            t.term
-            , myt.median_year
-            , max(tr.duration)
-            , count(distinct tr.artistID) AS distinct_artist
-            , avg(tr.duration) AS average_duration 
-        FROM tracks AS tr
-        JOIN artist_term AS t ON tr.artistID = t.artistID
-        LEFT JOIN MedianYearTerm AS myt ON myt.term = t.term 
-        GROUP BY t.term,  myt.median_year
-        ORDER BY average_duration ASC
-        LIMIT 10
-        ''')
-    question_4_query.show()
+    # question_4_query = spark.sql(
+    #     '''
+    #     WITH RankedReleases AS (
+    #         SELECT
+    #             t.term,
+    #             tr.year,
+    #             ROW_NUMBER() OVER (PARTITION BY t.term ORDER BY tr.year DESC, tr.trackID DESC) AS desc_row_num,
+    #             ROW_NUMBER() OVER (PARTITION BY t.term ORDER BY tr.year ASC, tr.trackID ASC) AS asc_row_num
+    #         FROM tracks AS tr
+    #         JOIN artist_term AS t ON tr.artistID = t.artistID
+    #         WHERE tr.year != 0
+    #     )
+    #     , MedianYearTerm AS (
+    #         SELECT
+    #             term,
+    #             CAST(ROUND(AVG(year),0) AS INT) as median_year
+    #         FROM RankedReleases
+    #         WHERE
+    #             asc_row_num = desc_row_num OR
+    #             asc_row_num = desc_row_num - 1 OR 
+    #             asc_row_num = desc_row_num + 1 
+    #         GROUP BY term
+    #         ORDER BY median_year DESC
+    #     )
+    #     SELECT 
+    #         t.term
+    #         , myt.median_year
+    #         , max(tr.duration)
+    #         , count(distinct tr.artistID) AS distinct_artist
+    #         , avg(tr.duration) AS average_duration 
+    #     FROM tracks AS tr
+    #     JOIN artist_term AS t ON tr.artistID = t.artistID
+    #     LEFT JOIN MedianYearTerm AS myt ON myt.term = t.term 
+    #     GROUP BY t.term,  myt.median_year
+    #     ORDER BY average_duration ASC
+    #     LIMIT 10
+    #     ''')
+    # question_4_query.show()
     
 
     
@@ -204,6 +209,8 @@ def main(spark, userID):
         '''
     )
     question_5_query.show()
+
+    
 
 
 # Only enter this block if we're in main
