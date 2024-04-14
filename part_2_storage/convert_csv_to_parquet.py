@@ -37,7 +37,7 @@ def main(spark):
     # df_big.write.parquet('hdfs:/user/qy561_nyu_edu/peopleBig.parquet')
 
 # Read Parquet file into DataFrame
-    df = spark.read.parquet('hdfs:/user/qy561_nyu_edu/peopleSmall.parquet')  # Replace with your file's path
+    df = spark.read.parquet('hdfs:/user/qy561_nyu_edu/peopleModerate.parquet')  # Replace with your file's path
 
     # Show contents of DataFrame
     df.show()
