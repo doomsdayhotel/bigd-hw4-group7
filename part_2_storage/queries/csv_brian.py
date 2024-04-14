@@ -35,8 +35,13 @@ def csv_brian(spark, file_path):
         first_name of 'Brian' and not in the loyalty program
     '''
 
-    #TODO
-    pass
+    people = spark.read.csv(file_path, header=True, 
+                            schema='first_name STRING, last_name STRING, age INT, income FLOAT, zipcode INT, orders INT, loyalty BOOLEAN, rewards BOOLEAN')
+
+    people.createOrReplaceTempView('people')
+
+    result = spark.sql("SELECT * FROM people WHERE first_name = 'Brian' AND loyalty = FALSE")
+    return result
 
 
 
@@ -47,8 +52,20 @@ def main(spark, file_path):
     spark : SparkSession object
     which_dataset : string, size of dataset to be analyzed
     '''
-    #TODO
-    pass
+    times = bench.benchmark(spark, 25, csv_brian, file_path)
+
+    min_time = min(times)
+    max_time = max(times)
+    median_time = np.median(times)
+
+    print(f'Times to run Basic Query 25 times on {file_path}:')
+    print(times)
+    print(f'Minimum Time: {min_time}')
+    print(f'Maximum Time: {max_time}')
+    print(f'Median Time: {median_time}')
+    
+    df = csv_brian(spark, file_path)
+    df.show()
 
 # Only enter this block if we're in main
 if __name__ == "__main__":

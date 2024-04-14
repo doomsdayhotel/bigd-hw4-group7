@@ -34,9 +34,13 @@ def csv_big_spender(spark, file_path):
         Uncomputed dataframe of users 
     '''
 
-    #TODO
-    pass
+    people = spark.read.csv(file_path, header=True, 
+                            schema='first_name STRING, last_name STRING, age INT, income FLOAT, zipcode INT, orders INT, loyalty BOOLEAN, rewards BOOLEAN')
+    
+    people.createOrReplaceTempView('people')
 
+    result = spark.sql('SELECT * FROM people WHERE orders >= 100 AND rewards = FALSE')
+    return result
 
 
 def main(spark, file_path):
@@ -46,8 +50,20 @@ def main(spark, file_path):
     spark : SparkSession object
     which_dataset : string, size of dataset to be analyzed
     '''
-    #TODO
-    pass
+    times = bench.benchmark(spark, 25, csv_big_spender, file_path)
+
+    min_time = min(times)
+    max_time = max(times)
+    median_time = np.median(times)
+
+    print(f'Times to run Basic Query 25 times on {file_path}:')
+    print(times)
+    print(f'Minimum Time: {min_time}')
+    print(f'Maximum Time: {max_time}')
+    print(f'Median Time: {median_time}')
+    
+    df = csv_big_spender(spark, file_path)
+    df.show()
 
 # Only enter this block if we're in main
 if __name__ == "__main__":
