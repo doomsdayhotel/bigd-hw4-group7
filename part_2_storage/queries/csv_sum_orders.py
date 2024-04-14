@@ -72,6 +72,12 @@ def main(spark, datasets):
 
     # Loop over the datasets and collect timing information
     for file_path in datasets:
+        df = csv_sum_orders(spark, file_path)
+        
+        print(f"Results for dataset {file_path}:")
+        df.show()
+
+
         times = bench.benchmark(spark, 25, csv_sum_orders, file_path)
 
         timing_results[file_path] = {
