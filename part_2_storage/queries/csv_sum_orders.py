@@ -83,13 +83,13 @@ def main(spark, datasets):
         print(f'Times to run csv_sum_orders 25 times on {file_path}:')
         print(timing_results[file_path])
 
-        pd_df = pd.DataFrame(timing_results).transpose()
-    
-        pd_df.reset_index(inplace=True)
-        pd_df.rename(columns={'index': 'Dataset'}, inplace=True)       
+    pd_df = pd.DataFrame(timing_results).transpose()
 
-        spark_df = spark.createDataFrame(pd_df)
-        spark_df.show() 
+    pd_df.reset_index(inplace=True)
+    pd_df.rename(columns={'index': 'Dataset'}, inplace=True)       
+
+    spark_df = spark.createDataFrame(pd_df)
+    spark_df.show() 
 
 # Only enter this block if we're in main
 if __name__ == "__main__":
