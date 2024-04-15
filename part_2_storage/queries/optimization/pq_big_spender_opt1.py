@@ -112,7 +112,7 @@ if __name__ == "__main__":
     datasets = [
         'hdfs:/user/qy561_nyu_edu/peopleSmallOpt1BigSpender.parquet',
         'hdfs:/user/qy561_nyu_edu/peopleModerateOpt1BigSpender.parquet',
-        'hdfs:/user/qy561_nyu_edu/peopleBigOpt1BigSpender.parquet'
+        # 'hdfs:/user/qy561_nyu_edu/peopleBigOpt1BigSpender.parquet'
     ]
     
     # Call main function with the list of datasets
