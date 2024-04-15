@@ -32,9 +32,9 @@ def main(spark):
     df_moderate = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleModerate.csv', header=True, inferSchema=True)
     df_big = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleBig.csv', header=True, inferSchema=True)
 
-    df_small_sorted = df_small.sort(col("orders"), col("zipcode"))
-    df_moderate_sorted = df_moderate.sort(col("orders"), col("zipcode"))
-    df_big_sorted = df_big.sort(col("orders"), col("zipcode"))
+    df_small_sorted = df_small.sort(col("zipcode"))
+    df_moderate_sorted = df_moderate.sort(col("zipcode"))
+    df_big_sorted = df_big.sort(col("zipcode"))
 
 
     # Convert to Parquet and save to HDFS directory
