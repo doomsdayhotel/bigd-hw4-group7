@@ -12,6 +12,7 @@ import bench
 
 # And pyspark.sql to get the spark session
 from pyspark.sql import SparkSession
+import numpy as np
 
 
 def pq_brian(spark, file_path):
@@ -35,8 +36,12 @@ def pq_brian(spark, file_path):
         first_name of 'Brian' and not in the loyalty program
     '''
 
-    #TODO
-    pass
+    people = spark.read.parquet(file_path)
+
+    people.createOrReplaceTempView('people')
+
+    result = spark.sql("SELECT * FROM people WHERE first_name = 'Brian' AND loyalty = FALSE")
+    return result
 
 
 
@@ -47,8 +52,14 @@ def main(spark, file_path):
     spark : SparkSession object
     which_dataset : string, size of dataset to be analyzed
     '''
-    #TODO
-    pass
+    for file_path in datasets:
+        times = bench.benchmark(spark, 25, pq_brian, file_path)
+
+        print(f'Times to run \'pq_brian\' Query 25 times on {file_path}')
+        # print(times)
+        print(f'Maximum Time :{max(times)}')
+        print(f'minimum Time :{min(times)}')
+        print(f'median Time :{np.median(times)}')
 
 # Only enter this block if we're in main
 if __name__ == "__main__":
@@ -57,6 +68,12 @@ if __name__ == "__main__":
     spark = SparkSession.builder.appName('part2').getOrCreate()
 
     # Get file_path for dataset to analyze
-    file_path = sys.argv[1]
+    # file_path = sys.argv[1]
 
-    main(spark, file_path)
+    datasets = [
+        'hdfs:/user/hl5679_nyu_edu/peopleSmall.parquet',
+        'hdfs:/user/hl5679_nyu_edu/peopleModerate.parquet',
+        'hdfs:/user/hl5679_nyu_edu/peopleBig.parquet'
+    ]
+
+    main(spark, datasets)

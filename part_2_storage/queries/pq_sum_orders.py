@@ -12,6 +12,7 @@ import bench
 
 # And pyspark.sql to get the spark session
 from pyspark.sql import SparkSession
+import numpy as np
 
 
 def pq_sum_orders(spark, file_path):
@@ -32,25 +33,12 @@ def pq_sum_orders(spark, file_path):
     df_sum_orders:
         Uncomputed dataframe of total orders grouped by zipcode
     '''
-    spark = SparkSession.builder.appName('pq_sum_orders').getOrCreate()
-    
-    # Read the CSV file into a DataFrame
-    people = spark.read.csv(file_path, header=True, 
-                            schema='first_name STRING, last_name STRING, age INT, income FLOAT, zipcode INT, orders INT, loyalty BOOLEAN, rewards BOOLEAN')
-    parquet_path = 'hdfs:/user/hl5679_nyu_edu/peopleSmall.parquet'
-    people.write.parquet(parquet_path, mode="overwrite")
-    
-    df = spark.read.parquet(parquet_path)
-    df.createOrReplaceTempView("people")
+    people = spark.read.parquet(file_path)
 
-    total_orders = spark.sql(
-        '''
-        SELECT zipcode, sum(orders)
-        FROM people
-        GROUP by zipcode
-        '''
-    )
-    return total_orders
+    people.createOrReplaceTempView('people')
+
+    result = spark.sql('SELECT zipcode, SUM(orders) AS total_orders FROM people GROUP BY zipcode')
+    return result
 
 
 def main(spark, file_path):
@@ -60,12 +48,14 @@ def main(spark, file_path):
     spark : SparkSession object
     which_dataset : string, size of dataset to be analyzed
     '''
-    times = bench.benchmark(spark, 25, pq_sum_orders, file_path)
+    for file_path in datasets:
+        times = bench.benchmark(spark, 25, pq_sum_orders, file_path)
 
-    print(f'Times to run \'pq_sum_orders\' Query 25 times on {file_path}')
-    print(times)
-    print(f'Maximum Time taken to run \'pq_sum_orders\' Query 25 times on {file_path}:{max(times)}')
-    print(f'minimum Time taken to run \'pq_sum_orders\' Query 25 times on {file_path}:{min(times)}')
+        print(f'Times to run \'pq_sum_orders\' Query 25 times on {file_path}')
+        # print(times)
+        print(f'Maximum Time :{max(times)}')
+        print(f'minimum Time :{min(times)}')
+        print(f'median Time :{np.median(times)}')
 
 # Only enter this block if we're in main
 if __name__ == "__main__":
@@ -74,6 +64,12 @@ if __name__ == "__main__":
     spark = SparkSession.builder.appName('part2').getOrCreate()
 
     # Get file_path for dataset to analyze
-    file_path = sys.argv[1]
+    # file_path = sys.argv[1]
 
-    main(spark, file_path)
+    datasets = [
+        'hdfs:/user/hl5679_nyu_edu/peopleSmall.parquet',
+        'hdfs:/user/hl5679_nyu_edu/peopleModerate.parquet',
+        'hdfs:/user/hl5679_nyu_edu/peopleBig.parquet'
+    ]
+
+    main(spark, datasets)
