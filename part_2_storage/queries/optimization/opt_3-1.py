@@ -11,6 +11,8 @@ import sys
 
 # And pyspark.sql to get the spark session
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
+
 
 
 def main(spark):
@@ -30,11 +32,15 @@ def main(spark):
     df_moderate = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleModerate.csv', header=True, inferSchema=True)
     df_big = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleBig.csv', header=True, inferSchema=True)
 
+    df_small_sorted = df_small.sort(col("zipcode"))
+    df_moderate_sorted = df_moderate.sort(col("zipcode"))
+    df_big_sorted = df_big.sort(col("zipcode"))
+
 
     # Convert to Parquet and save to HDFS directory
-    df_small.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet')
-    df_moderate.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet')
-    df_big.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet')
+    df_small_sorted.write.parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt1SumOrders.parquet')
+    df_moderate_sorted.write.parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt1SumOrders.parquet')
+    df_big_sorted.write.parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt1SumOrders.parquet')
 
     # use the following code to check and preview parquet files
     # Read Parquet file into DataFrame

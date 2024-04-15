@@ -12,6 +12,13 @@ import sys
 # And pyspark.sql to get the spark session
 from pyspark.sql import SparkSession
 
+def get_spark_config(spark):
+    """Function to get and print the Spark session's configuration."""
+
+    num_executors = spark._jsc.sc().getExecutorMemoryStatus().size()
+    num_cores = int(spark.conf.get("spark.executor.instances")) * int(spark.conf.get("spark.executor.cores"))
+    print(f"Number of executors: {num_executors}")
+    print(f"Total number of cores: {num_cores}")
 
 def main(spark):
     '''Main routine for run for Storage optimization template.
@@ -25,26 +32,8 @@ def main(spark):
     #Use this template to as much as you want for your parquet saving and optimizations!
     # Read the CSV files
     # or instead of inferSchema, schema='first_name STRING, last_name STRING, age INT, income FLOAT, zipcode INT, orders INT, loyalty BOOLEAN, rewards BOOLEAN'? I forgot which one I used, but it worked
-    
-    df_small = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleSmall.csv', header=True, inferSchema=True)
-    df_moderate = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleModerate.csv', header=True, inferSchema=True)
-    df_big = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleBig.csv', header=True, inferSchema=True)
 
-
-    # Convert to Parquet and save to HDFS directory
-    df_small.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet')
-    df_moderate.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet')
-    df_big.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet')
-
-    # use the following code to check and preview parquet files
-    # Read Parquet file into DataFrame
-    # df = spark.read.parquet('hdfs:/user/qy561_nyu_edu/peopleModerate.parquet')  h
-
-    # # Show contents of DataFrame
-    # df.show()
-
-    # # Print schema of DataFrame
-    # df.printSchema()
+    get_spark_config(spark)
 
 # Only enter this block if we're in main
 if __name__ == "__main__":
