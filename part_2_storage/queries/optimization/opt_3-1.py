@@ -32,15 +32,15 @@ def main(spark):
     df_moderate = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleModerate.csv', header=True, inferSchema=True)
     df_big = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleBig.csv', header=True, inferSchema=True)
 
-    df_small_sorted = df_small.sort(col("zipcode"))
-    df_moderate_sorted = df_moderate.sort(col("zipcode"))
-    df_big_sorted = df_big.sort(col("zipcode"))
+    df_small_repartitioned = df_small.repartition(36)
+    df_moderate_repartitioned = df_moderate.repartition(36)
+    df_big_repartitioned = df_big.repartition(36)
 
 
     # Convert to Parquet and save to HDFS directory
-    df_small_sorted.write.parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt1SumOrders.parquet')
-    df_moderate_sorted.write.parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt1SumOrders.parquet')
-    df_big_sorted.write.parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt1SumOrders.parquet')
+    df_small_repartitioned.write.parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet')
+    df_moderate_repartitioned.write.parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet')
+    df_big_repartitioned.write.parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet')
 
     # use the following code to check and preview parquet files
     # Read Parquet file into DataFrame
