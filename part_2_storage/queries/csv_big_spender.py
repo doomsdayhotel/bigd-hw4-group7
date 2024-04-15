@@ -13,6 +13,8 @@ import bench
 # And pyspark.sql to get the spark session
 from pyspark.sql import SparkSession
 
+import numpy as np
+
 
 def csv_big_spender(spark, file_path):
     '''Construct a basic query on the people dataset
@@ -58,12 +60,14 @@ def main(spark, file_path):
     spark : SparkSession object
     which_dataset : string, size of dataset to be analyzed
     '''
-    times = bench.benchmark(spark, 25, csv_big_spender, file_path)
+    for file_path in datasets:
+        times = bench.benchmark(spark, 25, csv_big_spender, file_path)
 
-    print(f'Times to run \'csv_big_spender\' Query 25 times on {file_path}')
-    print(times)
-    print(f'Maximum Time taken to run \'csv_big_spender\' Query 25 times on {file_path}:{max(times)}')
-    print(f'minimum Time taken to run \'csv_big_spender\' Query 25 times on {file_path}:{min(times)}')
+        print(f'Times to run \'csv_big_spender\' Query 25 times on {file_path}')
+        # print(times)
+        print(f'Maximum Time :{max(times)}')
+        print(f'minimum Time :{min(times)}')
+        print(f'median Time :{np.median(times)}')
 
 # Only enter this block if we're in main
 if __name__ == "__main__":
@@ -72,6 +76,12 @@ if __name__ == "__main__":
     spark = SparkSession.builder.appName('part2').getOrCreate()
 
     # Get file_path for dataset to analyze
-    file_path = sys.argv[1]
+    # file_path = sys.argv[1]
 
-    main(spark, file_path)
+    datasets = [
+        'hdfs:/user/pw44_nyu_edu/peopleSmall.csv',
+        'hdfs:/user/pw44_nyu_edu/peopleModerate.csv',
+        'hdfs:/user/pw44_nyu_edu/peopleBig.csv'
+    ]
+
+    main(spark, datasets)

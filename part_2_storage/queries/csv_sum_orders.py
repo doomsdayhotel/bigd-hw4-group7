@@ -61,7 +61,7 @@ def main(spark, file_path):
     for file_path in datasets:
         times = bench.benchmark(spark, 25, csv_sum_orders, file_path)
 
-        print(f'Times to run \'csv_brian\' Query 25 times on {file_path}')
+        print(f'Times to run \'csv_sum_orders\' Query 25 times on {file_path}')
         # print(times)
         print(f'Maximum Time :{max(times)}')
         print(f'minimum Time :{min(times)}')
