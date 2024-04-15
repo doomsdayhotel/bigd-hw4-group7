@@ -11,6 +11,7 @@ import sys
 
 # And pyspark.sql to get the spark session
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
 
 
 
