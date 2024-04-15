@@ -36,7 +36,7 @@ def main(spark):
 
     # use the following code to check and preview parquet files
     # Read Parquet file into DataFrame
-    # df = spark.read.parquet('hdfs:/user/qy561_nyu_edu/peopleModerate.parquet')  h
+    # df = spark.read.parquet('hdfs:/user/hl5679_nyu_edu/peopleModerate.parquet')
 
     # # Show contents of DataFrame
     # df.show()
