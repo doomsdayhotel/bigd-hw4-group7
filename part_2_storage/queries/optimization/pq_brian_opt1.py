@@ -73,10 +73,10 @@ def main(spark, datasets):
     for file_path in datasets:
         #to make sure the query successfully ran. **already checked.** 
 
-        df = pq_sum_orders(spark, file_path)
+        # df = pq_sum_orders(spark, file_path)
 
-        print(f"Results for dataset {file_path}:")
-        df.show()
+        # print(f"Results for dataset {file_path}:")
+        # df.show()
 
 
         times = bench.benchmark(spark, 25, pq_sum_orders, file_path)
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     datasets = [
         'hdfs:/user/qy561_nyu_edu/peopleSmallOpt1Brian.parquet',
         'hdfs:/user/qy561_nyu_edu/peopleModerateOpt1Brian.parquet',
-        # 'hdfs:/user/qy561_nyu_edu/peopleBigOpt1Brian.parquet'
+        'hdfs:/user/qy561_nyu_edu/peopleBigOpt1Brian.parquet'
     ]
     
     # Call main function with the list of datasets
