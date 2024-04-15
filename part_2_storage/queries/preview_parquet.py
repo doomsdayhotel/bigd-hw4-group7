@@ -26,7 +26,7 @@ def main(spark):
     #Use this template to as much as you want for your parquet saving and optimizations!
 
     # Read Parquet file into DataFrame
-    df = spark.read.parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt1BigSpender.parquet')
+    df = spark.read.parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt1BigSpender.parquet')
 
     # Show contents of DataFrame
     df.show()
