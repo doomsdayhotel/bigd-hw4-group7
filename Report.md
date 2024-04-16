@@ -1,8 +1,8 @@
 # Lab 3: Spark and Parquet Optimization Report
 
-Name:
+Name: Bess Yang
 
-NetID:
+NetID: qy561
 
 ## Part 1: Spark
 
@@ -393,10 +393,80 @@ What to include in your report:
                 |   min_time|                                  0.21764826774597168|                                     0.34025144577026367|                                  4.083450794219971|
                 |   max_time|                                    5.377877235412598|                                      0.6519632339477539|                                  5.678818225860596|
                 |median_time|                                   0.3115706443786621|                                      0.3946220874786377|                                 4.8923728466033936|
-                +-----------+-----------------------------------------------------+--------------------------------------------------------+---------------------------------------------------+
+                +-----------+-----------------------------------------------------+--------------------------------------------------------+---------------------------------------------------
+
+        3. Optimization Method #3: Repartitioning
+
+                from `get_config`:
+
+                Number of executors: 1
+                Total number of cores: 16
+
+                Thus, trying 36 partitioins:
+
+                ```python
+                df_small_repartitioned = df_small.repartition(36)
+                df_moderate_repartitioned = df_moderate.repartition(36)
+                df_big_repartitioned = df_big.repartition(36)
+                ```
+            A. for pq_sum_orders:
+
+                Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet:
+                {'min_time': 0.22266745567321777, 'max_time': 6.111672401428223, 'median_time': 0.3198375701904297}
+
+                Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet:
+                {'min_time': 3.623654365539551, 'max_time': 4.308531045913696, 'median_time': 3.9093332290649414}
+
+                Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet:
+                {'min_time': 5.410287618637085, 'max_time': 7.296245098114014, 'median_time': 6.579694747924805}
+
+                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet|
+                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                |   min_time|                               0.22266745567321777|                                    3.623654365539551|                               5.410287618637085|
+                |   max_time|                                 6.111672401428223|                                    4.308531045913696|                               7.296245098114014|
+                |median_time|                                0.3198375701904297|                                   3.9093332290649414|                               6.579694747924805|
+                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+
+            B. for pq_big_spender:
+
+                Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet:
+                {'min_time': 0.20514798164367676, 'max_time': 5.031052827835083, 'median_time': 0.267803430557251}
+
+                Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet:
+                {'min_time': 3.779075860977173, 'max_time': 4.11845588684082, 'median_time': 3.893751621246338}
+
+                Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet:
+                {'min_time': 3.6144943237304688, 'max_time': 4.329789876937866, 'median_time': 3.8564276695251465}
+
+                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet|
+                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                |   min_time|                               0.20514798164367676|                                    3.779075860977173|                              3.6144943237304688|
+                |   max_time|                                 5.031052827835083|                                     4.11845588684082|                               4.329789876937866|
+                |median_time|                                 0.267803430557251|                                    3.893751621246338|                              3.8564276695251465|
+                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+
+            C. for pq_brian:
+
+                Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet:
+                {'min_time': 0.24093890190124512, 'max_time': 6.883582353591919, 'median_time': 0.32990264892578125}
+
+                Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet:
+                {'min_time': 0.28917813301086426, 'max_time': 0.5196423530578613, 'median_time': 0.3467369079589844}
+
+                Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet:
+                {'min_time': 2.111083745956421, 'max_time': 4.023637771606445, 'median_time': 2.4144575595855713}
+
+                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet|
+                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                |   min_time|                               0.24093890190124512|                                  0.28917813301086426|                               2.111083745956421|
+                |   max_time|                                 6.883582353591919|                                   0.5196423530578613|                               4.023637771606445|
+                |median_time|                               0.32990264892578125|                                   0.3467369079589844|                              2.4144575595855713|
+                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
 
 - How do the results in parts 2.3, 2.4, and 2.5 compare?
-
 - What did you try in part 2.5 to improve performance for each query?
 - What worked, and what didn't work?
 
