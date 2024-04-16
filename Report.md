@@ -523,6 +523,35 @@ What to include in your report:
                     |median_time|                                         0.17888879776000977|                                            0.13005518913269043|                                        3.9002137184143066|
                     +-----------+------------------------------------------------------------+---------------------------------------------------------------+----------------------------------------------------------+
 
+                C. for pq_brian:
+
+                    Repartitioning for this query is not a good idea. The column 'Loyalty' has low cardinality and will only lead to two partitions. The column 'first_name' has high cardinality (a large number of partitions but little data), and it might have an uneven distribution of names, leading to uneven distributions of partitions.
+
+                    However, I'll still repartition by column 'frist_name' for the sake of completing this task/for the sake of seeing what the results look like. It is expected repartitioning here will slow down processing instead of speeding it up.
+
+                    ```python
+                    df_small_repartitioned = df_small.repartition(col("first_name"))
+                    df_moderate_repartitioned = df_moderate.repartition(col("first_name"))
+                    df_big_repartitioned = df_big.repartition(col("first_name"))
+                    ```
+
+                    Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2Brian.parquet:
+                    {'min_time': 0.1379683017730713, 'max_time': 6.104769229888916, 'median_time': 0.17804932594299316}
+
+                    Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2Brian.parquet:
+                    {'min_time': 0.12296414375305176, 'max_time': 0.1788628101348877, 'median_time': 0.1428384780883789}
+
+                    Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2Brian.parquet:
+                    {'min_time': 0.2393805980682373, 'max_time': 0.3773176670074463, 'median_time': 0.26538968086242676}
+
+                    +-----------+-------------------------------------------------------+----------------------------------------------------------+-----------------------------------------------------+
+                    |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2Brian.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2Brian.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2Brian.parquet|
+                    +-----------+-------------------------------------------------------+----------------------------------------------------------+-----------------------------------------------------+
+                    |   min_time|                                     0.1379683017730713|                                       0.12296414375305176|                                   0.2393805980682373|
+                    |   max_time|                                      6.104769229888916|                                        0.1788628101348877|                                   0.3773176670074463|
+                    |median_time|                                    0.17804932594299316|                                        0.1428384780883789|                                  0.26538968086242676|
+                    +-----------+-------------------------------------------------------+----------------------------------------------------------+-----------------------------------------------------+
+
 - How do the results in parts 2.3, 2.4, and 2.5 compare?
 - What did you try in part 2.5 to improve performance for each query?
 - What worked, and what didn't work?
