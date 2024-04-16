@@ -39,7 +39,7 @@ def pq_sum_orders(spark, file_path):
 
     people.createOrReplaceTempView('people')
 
-    result = spark.sql('SELECT zipcode, SUM(orders) AS total_orders FROM people GROUP BY zipcode')
+    result = spark.sql("SELECT * FROM people WHERE first_name = 'Brian' AND loyalty = FALSE")
     return result
 
 
