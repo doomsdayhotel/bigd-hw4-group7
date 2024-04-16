@@ -379,23 +379,25 @@ What to include in your report:
                 ```
 
                 Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt1Brian.parquet:
-                {'min_time': 0.21764826774597168, 'max_time': 5.377877235412598, 'median_time': 0.3115706443786621}
+                {'min_time': 0.13490867614746094, 'max_time': 2.527125835418701, 'median_time': 0.17870140075683594}
 
                 Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt1Brian.parquet:
-                {'min_time': 0.34025144577026367, 'max_time': 0.6519632339477539, 'median_time': 0.3946220874786377}
+                {'min_time': 0.1221778392791748, 'max_time': 1.3962531089782715, 'median_time': 0.13815689086914062}
 
                 Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt1Brian.parquet:
-                {'min_time': 4.083450794219971, 'max_time': 5.678818225860596, 'median_time': 4.8923728466033936}
+                {'min_time': 3.356139898300171, 'max_time': 3.961683750152588, 'median_time': 3.897855758666992}
 
                 +-----------+-----------------------------------------------------+--------------------------------------------------------+---------------------------------------------------+
                 |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt1Brian.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt1Brian.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt1Brian.parquet|
                 +-----------+-----------------------------------------------------+--------------------------------------------------------+---------------------------------------------------+
-                |   min_time|                                  0.21764826774597168|                                     0.34025144577026367|                                  4.083450794219971|
-                |   max_time|                                    5.377877235412598|                                      0.6519632339477539|                                  5.678818225860596|
-                |median_time|                                   0.3115706443786621|                                      0.3946220874786377|                                 4.8923728466033936|
-                +-----------+-----------------------------------------------------+--------------------------------------------------------+---------------------------------------------------
+                |   min_time|                                  0.13490867614746094|                                      0.1221778392791748|                                  3.356139898300171|
+                |   max_time|                                    2.527125835418701|                                      1.3962531089782715|                                  3.961683750152588|
+                |median_time|                                  0.17870140075683594|                                     0.13815689086914062|                                  3.897855758666992|
+                +-----------+-----------------------------------------------------+--------------------------------------------------------+---------------------------------------------------+
 
         3. Optimization Method #3: Repartitioning
+
+            3-1: Setting the number of partitions
 
                 from `get_config`:
 
@@ -409,62 +411,117 @@ What to include in your report:
                 df_moderate_repartitioned = df_moderate.repartition(36)
                 df_big_repartitioned = df_big.repartition(36)
                 ```
-            A. for pq_sum_orders:
+                A. for pq_sum_orders:
 
-                Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet:
-                {'min_time': 0.22266745567321777, 'max_time': 6.111672401428223, 'median_time': 0.3198375701904297}
+                    Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet:
+                    {'min_time': 0.22266745567321777, 'max_time': 6.111672401428223, 'median_time': 0.3198375701904297}
 
-                Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet:
-                {'min_time': 3.623654365539551, 'max_time': 4.308531045913696, 'median_time': 3.9093332290649414}
+                    Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet:
+                    {'min_time': 3.623654365539551, 'max_time': 4.308531045913696, 'median_time': 3.9093332290649414}
 
-                Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet:
-                {'min_time': 5.410287618637085, 'max_time': 7.296245098114014, 'median_time': 6.579694747924805}
+                    Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet:
+                    {'min_time': 5.410287618637085, 'max_time': 7.296245098114014, 'median_time': 6.579694747924805}
 
-                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
-                |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet|
-                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
-                |   min_time|                               0.22266745567321777|                                    3.623654365539551|                               5.410287618637085|
-                |   max_time|                                 6.111672401428223|                                    4.308531045913696|                               7.296245098114014|
-                |median_time|                                0.3198375701904297|                                   3.9093332290649414|                               6.579694747924805|
-                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                    +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                    |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet|
+                    +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                    |   min_time|                               0.22266745567321777|                                    3.623654365539551|                               5.410287618637085|
+                    |   max_time|                                 6.111672401428223|                                    4.308531045913696|                               7.296245098114014|
+                    |median_time|                                0.3198375701904297|                                   3.9093332290649414|                               6.579694747924805|
+                    +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
 
-            B. for pq_big_spender:
+                B. for pq_big_spender:
 
-                Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet:
-                {'min_time': 0.20514798164367676, 'max_time': 5.031052827835083, 'median_time': 0.267803430557251}
+                    Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet:
+                    {'min_time': 0.20514798164367676, 'max_time': 5.031052827835083, 'median_time': 0.267803430557251}
 
-                Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet:
-                {'min_time': 3.779075860977173, 'max_time': 4.11845588684082, 'median_time': 3.893751621246338}
+                    Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet:
+                    {'min_time': 3.779075860977173, 'max_time': 4.11845588684082, 'median_time': 3.893751621246338}
 
-                Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet:
-                {'min_time': 3.6144943237304688, 'max_time': 4.329789876937866, 'median_time': 3.8564276695251465}
+                    Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet:
+                    {'min_time': 3.6144943237304688, 'max_time': 4.329789876937866, 'median_time': 3.8564276695251465}
 
-                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
-                |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet|
-                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
-                |   min_time|                               0.20514798164367676|                                    3.779075860977173|                              3.6144943237304688|
-                |   max_time|                                 5.031052827835083|                                     4.11845588684082|                               4.329789876937866|
-                |median_time|                                 0.267803430557251|                                    3.893751621246338|                              3.8564276695251465|
-                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                    +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                    |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet|
+                    +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                    |   min_time|                               0.20514798164367676|                                    3.779075860977173|                              3.6144943237304688|
+                    |   max_time|                                 5.031052827835083|                                     4.11845588684082|                               4.329789876937866|
+                    |median_time|                                 0.267803430557251|                                    3.893751621246338|                              3.8564276695251465|
+                    +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
 
-            C. for pq_brian:
+                C. for pq_brian:
 
-                Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet:
-                {'min_time': 0.24093890190124512, 'max_time': 6.883582353591919, 'median_time': 0.32990264892578125}
+                    Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet:
+                    {'min_time': 0.14253926277160645, 'max_time': 5.864479303359985, 'median_time': 0.18588781356811523}
 
-                Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet:
-                {'min_time': 0.28917813301086426, 'max_time': 0.5196423530578613, 'median_time': 0.3467369079589844}
+                    Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet:
+                    {'min_time': 0.1454927921295166, 'max_time': 0.5632948875427246, 'median_time': 0.1642611026763916}
 
-                Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet:
-                {'min_time': 2.111083745956421, 'max_time': 4.023637771606445, 'median_time': 2.4144575595855713}
+                    Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet:
+                    {'min_time': 1.0210862159729004, 'max_time': 1.965998888015747, 'median_time': 1.0468099117279053}
 
-                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
-                |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet|
-                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
-                |   min_time|                               0.24093890190124512|                                  0.28917813301086426|                               2.111083745956421|
-                |   max_time|                                 6.883582353591919|                                   0.5196423530578613|                               4.023637771606445|
-                |median_time|                               0.32990264892578125|                                   0.3467369079589844|                              2.4144575595855713|
-                +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                    +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                    |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet|
+                    +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+                    |   min_time|                               0.14253926277160645|                                   0.1454927921295166|                              1.0210862159729004|
+                    |   max_time|                                 5.864479303359985|                                   0.5632948875427246|                               1.965998888015747|
+                    |median_time|                               0.18588781356811523|                                   0.1642611026763916|                              1.0468099117279053|
+                    +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+
+            3.2: Partition by columns
+
+                A. for pq_sum_orders:
+
+                    Repartitioned by column 'zipcode'.
+
+                    ```python
+                    df_small_repartitioned = df_small.repartition(col("zipcode"))
+                    df_moderate_repartitioned = df_moderate.repartition(col("zipcode"))
+                    df_big_repartitioned = df_big.repartition(col("zipcode"))
+                    ```
+
+                    Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet:
+                    {'min_time': 0.18282175064086914, 'max_time': 8.369690895080566, 'median_time': 0.2533435821533203}
+
+                    Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet:
+                    {'min_time': 3.556148052215576, 'max_time': 4.113949298858643, 'median_time': 3.896993637084961}
+
+                    Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet:
+                    {'min_time': 3.6304237842559814, 'max_time': 4.363723516464233, 'median_time': 3.9076151847839355}
+
+                    +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
+                    |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet|
+                    +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
+                    |   min_time|                                        0.18282175064086914|                                             3.556148052215576|                                       3.6304237842559814|
+                    |   max_time|                                          8.369690895080566|                                             4.113949298858643|                                        4.363723516464233|
+                    |median_time|                                         0.2533435821533203|                                             3.896993637084961|                                       3.9076151847839355|
+                    +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
+
+                B. for pq_big_spender:
+
+                    Repartitioned by column 'orders'.
+
+                    ```python
+                    df_small_repartitioned = df_small.repartition(col("orders"))
+                    df_moderate_repartitioned = df_moderate.repartition(col("orders"))
+                    df_big_repartitioned = df_big.repartition(col("orders"))
+                    ```
+                    Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2BigSpender.parquet:
+                    {'min_time': 0.1383836269378662, 'max_time': 4.940512657165527, 'median_time': 0.17888879776000977}
+
+                    Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2BigSpender.parquet:
+                    {'min_time': 0.10951995849609375, 'max_time': 1.4327480792999268, 'median_time': 0.13005518913269043}
+
+                    Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2BigSpender.parquet:
+                    {'min_time': 3.820300340652466, 'max_time': 4.110840559005737, 'median_time': 3.9002137184143066}
+
+                    +-----------+------------------------------------------------------------+---------------------------------------------------------------+----------------------------------------------------------+
+                    |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2BigSpender.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2BigSpender.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2BigSpender.parquet|
+                    +-----------+------------------------------------------------------------+---------------------------------------------------------------+----------------------------------------------------------+
+                    |   min_time|                                          0.1383836269378662|                                            0.10951995849609375|                                         3.820300340652466|
+                    |   max_time|                                           4.940512657165527|                                             1.4327480792999268|                                         4.110840559005737|
+                    |median_time|                                         0.17888879776000977|                                            0.13005518913269043|                                        3.9002137184143066|
+                    +-----------+------------------------------------------------------------+---------------------------------------------------------------+----------------------------------------------------------+
 
 - How do the results in parts 2.3, 2.4, and 2.5 compare?
 - What did you try in part 2.5 to improve performance for each query?
