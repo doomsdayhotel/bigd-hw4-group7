@@ -64,7 +64,7 @@ def main(spark, file_path):
 if __name__ == "__main__":
 
     # Create the spark session object
-    spark = SparkSession.builder.appName('part2').config("spark.hadoop.dfs.replication", "3").getOrCreate()
+    spark = SparkSession.builder.appName('part2').config("spark.hadoop.dfs.replication", "6").getOrCreate()
 
     # Get file_path for dataset to analyze
     # file_path = sys.argv[1]
