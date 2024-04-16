@@ -73,10 +73,10 @@ def main(spark, datasets):
     for file_path in datasets:
         #to make sure the query successfully ran. **already checked.** 
 
-        df = pq_sum_orders(spark, file_path)
+        # df = pq_sum_orders(spark, file_path)
 
-        print(f"Results for dataset {file_path}:")
-        df.show()
+        # print(f"Results for dataset {file_path}:")
+        # df.show()
 
 
         times = bench.benchmark(spark, 25, pq_sum_orders, file_path)
