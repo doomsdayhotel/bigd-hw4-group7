@@ -32,9 +32,9 @@ def main(spark):
 
 
     # Convert to Parquet and save to HDFS directory
-    df_small.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet')
-    df_moderate.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet')
-    df_big.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet')
+    df_small.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet', mode='overwrite')
+    df_moderate.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet', mode='overwrite')
+    df_big.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet', mode='overwrite')
 
 
     # .option("dfs.replication", "3")
