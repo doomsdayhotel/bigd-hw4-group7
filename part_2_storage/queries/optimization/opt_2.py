@@ -32,9 +32,12 @@ def main(spark):
 
 
     # Convert to Parquet and save to HDFS directory
-    df_small.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet')
-    df_moderate.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet')
-    df_big.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet')
+    df_small.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet')
+    df_moderate.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet')
+    df_big.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet')
+
+
+    # .option("dfs.replication", "3")
 
     # use the following code to check and preview parquet files
     # Read Parquet file into DataFrame
@@ -50,7 +53,7 @@ def main(spark):
 if __name__ == "__main__":
 
     # Create the spark session object
-    spark = SparkSession.builder.appName('part2').getOrCreate()
+    spark = SparkSession.builder.appName('part2').config("spark.hadoop.dfs.replication", "6").getOrCreate()
 
     #If you wish to command line arguments, look into the sys library(primarily sys.argv)
     #Details are here: https://docs.python.org/3/library/sys.html
@@ -58,3 +61,4 @@ if __name__ == "__main__":
 
     main(spark)
     
+
