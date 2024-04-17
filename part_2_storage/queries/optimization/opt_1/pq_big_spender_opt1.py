@@ -40,7 +40,11 @@ def pq_big_spender(spark, file_path):
     
     people.createOrReplaceTempView('people')
 
-    result = spark.sql('SELECT * FROM people WHERE orders >= 100 AND rewards = FALSE')
+    result = spark.sql('''SELECT first_name, last_name, zipcode, SUM(orders) as total_orders
+                       FROM people
+                       WHERE rewards = FALSE
+                       GROUP BY first_name, last_name, zipcode
+                       HAVING SUM(orders) > 100''')
     return result
 
 
