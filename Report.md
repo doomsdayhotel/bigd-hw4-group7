@@ -188,9 +188,7 @@ ten least popular:
 
 What to include in your report:
 
-- Tables of all numerical results (min, max, median) for each query/size/storage combination for part 2.3, 2.4 and 2.5.
-
-  2.3:
+2.3:
 
           1. For csv_sum_orders:
 
@@ -249,9 +247,9 @@ What to include in your report:
               |median_time| 0.15778398513793945                   | 0.3529810905456543                       | 11.13907504081726                   |
               +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
 
-  2.4:
+2.4:
 
-  \*\* I wrote a seperate script to convert csv files to parquet, named the script `csv_to_parquet_2-4.py` under the folder queries.
+\*\* I wrote a seperate script to convert csv files to parquet, named the script `csv_to_parquet_2-4.py` under the folder queries.
 
           1. For pq_sum_orders:
 
@@ -310,8 +308,14 @@ What to include in your report:
               |median_time|                          0.2513551712036133|                             0.2550804615020752|                          4.08001971244812|
               +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
 
-  2.5: Optimization
-  \*\* See the optimization folder under optimization folder. For each query, there are two files: one for converting from csv to parquet files after implementing optimization methods and another script for running and benchmarking queries. 1. sort columns
+2.5: Optimization
+
+    - Tables of all numerical results (min, max, median) for each query/size/storage combination for part 2.3, 2.4 and 2.5.
+    - What did you try in part 2.5 to improve performance for each query?
+    - How do the results in parts 2.3, 2.4, and 2.5 compare?
+    - What worked, and what didn't work?
+
+\*\* See the optimization folder under optimization folder. For each query, there are two files: one for converting from csv to parquet files after implementing optimization methods and another script for running and benchmarking queries.
 
         1. Optimization Method #1: Sort Columns
 
@@ -394,6 +398,78 @@ What to include in your report:
                 |   max_time|                                    2.527125835418701|                                      1.3962531089782715|                                  3.961683750152588|
                 |median_time|                                  0.17870140075683594|                                     0.13815689086914062|                                  3.897855758666992|
                 +-----------+-----------------------------------------------------+--------------------------------------------------------+---------------------------------------------------+
+
+        2. Optimization Method #2 Change the replication factor
+
+            Used `hadoop fs -ls <file path>` to get default replication factor.
+
+            default replication factor is : 1
+
+            Setting the replication factor to 3 becuase it is the commonly adopted and a fair trade-off between fault tolerance and storage cost.
+
+            ```python
+            if __name__ == "__main__":
+            spark = SparkSession.builder.appName('part2').config("spark.hadoop.dfs.replication", "3").getOrCreate()
+            ...
+            ```
+
+            A. for pq_sum_orders:
+
+                Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet:
+                {'min_time': 0.18006467819213867, 'max_time': 5.114980459213257, 'median_time': 0.24790668487548828}
+
+                Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet:
+                {'min_time': 0.31557226181030273, 'max_time': 0.6819477081298828, 'median_time': 0.38585996627807617}
+
+                Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet:
+                {'min_time': 3.0053720474243164, 'max_time': 3.9871532917022705, 'median_time': 3.2145068645477295}
+
+                +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
+                |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet|
+                +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
+                |   min_time|                             0.18006467819213867|                                0.31557226181030273|                            3.0053720474243164|
+                |   max_time|                               5.114980459213257|                                 0.6819477081298828|                            3.9871532917022705|
+                |median_time|                             0.24790668487548828|                                0.38585996627807617|                            3.2145068645477295|
+                +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
+
+            B. for pq_big_spender:
+
+                Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet:
+                {'min_time': 0.1247096061706543, 'max_time': 5.53405499458313, 'median_time': 0.16304755210876465}
+
+                Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet:
+                {'min_time': 0.11816835403442383, 'max_time': 0.2691013813018799, 'median_time': 0.16377043724060059}
+
+                Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet:
+                {'min_time': 0.5906436443328857, 'max_time': 1.6331274509429932, 'median_time': 0.7588903903961182}
+
+                +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
+                |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet|
+                +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
+                |   min_time|                              0.1247096061706543|                                0.11816835403442383|                            0.5906436443328857|
+                |   max_time|                                5.53405499458313|                                 0.2691013813018799|                            1.6331274509429932|
+                |median_time|                             0.16304755210876465|                                0.16377043724060059|                            0.7588903903961182|
+                +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
+
+            C. for pq_brian:
+
+                Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet:
+                {'min_time': 0.1188971996307373, 'max_time': 4.546337842941284, 'median_time': 0.14828276634216309}
+
+                Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet:
+                {'min_time': 0.13617610931396484, 'max_time': 0.2509911060333252, 'median_time': 0.17609286308288574}
+
+                Times to run pq_brian 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet:
+                {'min_time': 1.604921579360962, 'max_time': 4.219437122344971, 'median_time': 2.4211385250091553}
+
+                +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
+                |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet|
+                +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
+                |   min_time|                              0.1188971996307373|                                0.13617610931396484|                             1.604921579360962|
+                |   max_time|                               4.546337842941284|                                 0.2509911060333252|                             4.219437122344971|
+                |median_time|                             0.14828276634216309|                                0.17609286308288574|                            2.4211385250091553|
+                +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
+
 
         3. Optimization Method #3: Repartitioning
 
@@ -523,6 +599,7 @@ What to include in your report:
                     |median_time|                                         0.17888879776000977|                                            0.13005518913269043|                                        3.9002137184143066|
                     +-----------+------------------------------------------------------------+---------------------------------------------------------------+----------------------------------------------------------+
 
+
                 C. for pq_brian:
 
                     Repartitioning for this query is not a good idea. The column 'Loyalty' has low cardinality and will only lead to two partitions. The column 'first_name' has high cardinality (a large number of partitions but little data), and it might have an uneven distribution of names, leading to uneven distributions of partitions.
@@ -551,9 +628,5 @@ What to include in your report:
                     |   max_time|                                      6.104769229888916|                                        0.1788628101348877|                                   0.3773176670074463|
                     |median_time|                                    0.17804932594299316|                                        0.1428384780883789|                                  0.26538968086242676|
                     +-----------+-------------------------------------------------------+----------------------------------------------------------+-----------------------------------------------------+
-
-- How do the results in parts 2.3, 2.4, and 2.5 compare?
-- What did you try in part 2.5 to improve performance for each query?
-- What worked, and what didn't work?
 
 Basic Markdown Guide: https://www.markdownguide.org/basic-syntax/
