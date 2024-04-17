@@ -25,6 +25,14 @@ def main(spark):
 
     #Use this template to as much as you want for your parquet saving and optimizations!
 
+    df_small = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleSmall.csv', header=True, inferSchema=True)
+    df_moderate = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleModerate.csv', header=True, inferSchema=True)
+    df_big = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleBig.csv', header=True, inferSchema=True)
+
+    # Convert to Parquet and save to HDFS directory
+    df_small.write.mode('overwrite').parquet('hdfs:/user/hl5679_nyu_edu/peopleSmallOpt1.parquet', mode='overwrite')
+    df_moderate.write.mode('overwrite').parquet('hdfs:/user/hl5679_nyu_edu/peopleModerateOpt1.parquet', mode='overwrite')
+    df_big.write.mode('overwrite').parquet('hdfs:/user/hl5679_nyu_edu/peopleBigOpt1.parquet', mode='overwrite')
 
 
 
@@ -32,7 +40,11 @@ def main(spark):
 if __name__ == "__main__":
 
     # Create the spark session object
-    spark = SparkSession.builder.appName('part2').getOrCreate()
+    # spark = SparkSession.builder.appName('part2').getOrCreate()
+
+    # Increase the replication factor to 6
+    spark = SparkSession.builder.appName("part2").getOrCreate()
+
 
     #If you wish to command line arguments, look into the sys library(primarily sys.argv)
     #Details are here: https://docs.python.org/3/library/sys.html
