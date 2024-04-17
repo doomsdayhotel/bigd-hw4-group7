@@ -32,14 +32,14 @@ def main(spark):
     df_moderate = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleModerate.csv', header=True, inferSchema=True)
     df_big = spark.read.csv('hdfs:/user/pw44_nyu_edu/peopleBig.csv', header=True, inferSchema=True)
 
-    df_small_repartitioned = df_small.repartition(col("zipcode"))
-    df_moderate_repartitioned = df_moderate.repartition(col("zipcode"))
-    df_big_repartitioned = df_big.repartition(col("zipcode"))
+    df_small_repartitioned = df_small.repartition(col("zipcode"), col("orders"))
+    df_moderate_repartitioned = df_moderate.repartition(col("zipcode"), col("orders"))
+    df_big_repartitioned = df_big.repartition(col("zipcode"), col("orders"))
 
     # Convert to Parquet and save to HDFS directory
-    df_small_repartitioned.write.parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet')
-    df_moderate_repartitioned.write.parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet')
-    df_big_repartitioned.write.parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet')
+    df_small_repartitioned.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet')
+    df_moderate_repartitioned.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet')
+    df_big_repartitioned.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet')
 
     # use the following code to check and preview parquet files
     # Read Parquet file into DataFrame
