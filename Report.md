@@ -483,6 +483,14 @@ What to include in your report:
                 |median_time|                             0.24790668487548828|                                0.38585996627807617|                            3.2145068645477295|
                 +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
 
+                Compare to 2.4:
+
+                For the small dataset, min time decreased, max and median time increased.
+                For the moderate dataset, min, max, and median time all decreased.
+                For the big dataset, min and median time increased, max time decreased.
+
+                Only worked for the moderate dataset.
+
             B. for pq_big_spender:
 
                 Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet:
@@ -501,6 +509,14 @@ What to include in your report:
                 |   max_time|                                5.53405499458313|                                 0.2691013813018799|                            1.6331274509429932|
                 |median_time|                             0.16304755210876465|                                0.16377043724060059|                            0.7588903903961182|
                 +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
+
+                Compare to 2.4:
+
+                For the small dataset, min time remained, max and median time increased.
+                For the moderate dataset, min time remained, max and median time increased.
+                For the big dataset, min and median time increased, max time decreased.
+
+                Didn't work.
 
             C. for pq_brian:
 
@@ -521,6 +537,13 @@ What to include in your report:
                 |median_time|                             0.14828276634216309|                                0.17609286308288574|                            2.4211385250091553|
                 +-----------+------------------------------------------------+---------------------------------------------------+----------------------------------------------+
 
+                Compare to 2.4:
+
+                For the small dataset, min and median time decreased, median time increased.
+                For the moderate dataset, min and median time decreased, median time increased.
+                For the big dataset, min, max, and median time all decreased.
+
+                Worked for the small and moderate dataset for the most part. Worked for the big dataset.
 
         3. Optimization Method #3: Repartitioning
 
@@ -531,7 +554,7 @@ What to include in your report:
                 Number of executors: 1
                 Total number of cores: 16
 
-                Thus, trying 36 partitioins:
+                Thus, trying 32 partitioins (a multiple of 16, it's recommended to assign 2-3 tasks per core):
 
                 ```python
                 df_small_repartitioned = df_small.repartition(36)
@@ -557,6 +580,14 @@ What to include in your report:
                     |median_time|                                0.3198375701904297|                                   3.9093332290649414|                               6.579694747924805|
                     +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
 
+                    Compare to 2.4:
+
+                    For the small dataset, min, max and median times all increased.
+                    For the moderate dataset, min, max and median times all increased.
+                    For the big dataset, min, max and median times all increased.
+
+                    Didn't work.
+
                 B. for pq_big_spender:
 
                     Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet:
@@ -575,6 +606,14 @@ What to include in your report:
                     |   max_time|                                 5.031052827835083|                                     4.11845588684082|                               4.329789876937866|
                     |median_time|                                 0.267803430557251|                                    3.893751621246338|                              3.8564276695251465|
                     +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
+
+                    Compare to 2.4:
+
+                    For the small dataset, min, max and median times all increased.
+                    For the moderate dataset, min, max and median times all increased.
+                    For the big dataset, min, max and median times all increased.
+
+                    Didn't work.
 
                 C. for pq_brian:
 
