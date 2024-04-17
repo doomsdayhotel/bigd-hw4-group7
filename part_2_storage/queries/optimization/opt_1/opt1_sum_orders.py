@@ -39,9 +39,9 @@ def main(spark):
 
 
     # Convert to Parquet and save to HDFS directory
-    df_small_sorted.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt1SumOrders.parquet')
-    df_moderate_sorted.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt1SumOrders.parquet')
-    df_big_sorted.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt1SumOrders.parquet')
+    df_small_sorted.write.mode.parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt1SumOrders.parquet')
+    df_moderate_sorted.write.mode.parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt1SumOrders.parquet')
+    df_big_sorted.write.mode.parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt1SumOrders.parquet')
 
     # use the following code to check and preview parquet files
     # Read Parquet file into DataFrame
