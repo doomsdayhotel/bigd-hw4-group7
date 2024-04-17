@@ -70,10 +70,16 @@ if __name__ == "__main__":
     # Get file_path for dataset to analyze
     # file_path = sys.argv[1]
 
+    # datasets = [
+    #     'hdfs:/user/hl5679_nyu_edu/peopleSmall.parquet',
+    #     'hdfs:/user/hl5679_nyu_edu/peopleModerate.parquet',
+    #     'hdfs:/user/hl5679_nyu_edu/peopleBig.parquet'
+    # ]
     datasets = [
-        'hdfs:/user/hl5679_nyu_edu/peopleSmall.parquet',
-        'hdfs:/user/hl5679_nyu_edu/peopleModerate.parquet',
-        'hdfs:/user/hl5679_nyu_edu/peopleBig.parquet'
+        'hdfs:/user/pw44_nyu_edu/peopleSmallOpt1.csv',
+        'hdfs:/user/pw44_nyu_edu/peopleModerateOpt1.csv',
+        'hdfs:/user/pw44_nyu_edu/peopleBigOpt1.csv'
     ]
+
 
     main(spark, datasets)
