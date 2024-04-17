@@ -72,10 +72,10 @@ def main(spark, datasets):
     # Loop over the datasets and collect timing information
     for file_path in datasets:
         # to make sure the query successfully ran. **already checked.** 
-        df = pq_big_spender(spark, file_path)
+        # df = pq_big_spender(spark, file_path)
         
-        print(f"Results for dataset {file_path}:")
-        df.show()
+        # print(f"Results for dataset {file_path}:")
+        # df.show()
 
 
         times = bench.benchmark(spark, 25, pq_big_spender, file_path)
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     datasets = [
         'hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet',
         'hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet',
-        # 'hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet'
+        'hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet'
     ]
     
     # Call main function with the list of datasets
