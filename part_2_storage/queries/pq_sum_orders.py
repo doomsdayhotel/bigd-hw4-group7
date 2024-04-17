@@ -72,9 +72,9 @@ if __name__ == "__main__":
     #     'hdfs:/user/hl5679_nyu_edu/peopleBig.parquet'
     # ]
     datasets = [
-        'hdfs:/user/hl5679_nyu_edu/peopleSmallOpt1.csv',
-        'hdfs:/user/hl5679_nyu_edu/peopleModerateOpt1.csv',
-        'hdfs:/user/hl5679_nyu_edu/peopleBigOpt1.csv'
+        'hdfs:/user/hl5679_nyu_edu/peopleSmallOpt1.parquet',
+        'hdfs:/user/hl5679_nyu_edu/peopleModerateOpt1.parquet',
+        'hdfs:/user/hl5679_nyu_edu/peopleBigOpt1.parquet'
     ]
 
 
