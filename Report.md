@@ -236,4 +236,94 @@ What to include in your report:
   median Time :0.9443416595458984
   ```
 
+#### pq_sum_order_opt.py
+- Small dataset
+  ``` Results
+  Times to run 'pq_sum_orders' Query 25 times on hdfs:/user/hl5679_nyu_edu/peopleSmallOpt1.parquet
+  Maximum Time :12.256407737731934
+  minimum Time :0.30503249168395996
+  median Time :0.39431118965148926
+  ```
+- Moderate dataset
+  ```Results
+  Times to run 'pq_sum_orders' Query 25 times on hdfs:/user/hl5679_nyu_edu/peopleModerateOpt1.parquet
+  Maximum Time :1.7227656841278076
+  minimum Time :0.5444228649139404
+  median Time :0.6922101974487305
+  ```
+
+- Big datasets
+  ```Results
+  Times to run 'pq_sum_orders' Query 25 times on hdfs:/user/hl5679_nyu_edu/peopleBigOpt1.parquet
+  Maximum Time :9.80612850189209
+  minimum Time :3.8290913105010986
+  median Time :5.345762252807617
+  ```
+
+#### pq_big_spender_opt.py
+- Small dataset
+  ``` Results
+  Times to run 'pq_big_spender' Query 25 times on hdfs:/user/hl5679_nyu_edu/peopleSmallOpt1.parquet
+  Maximum Time :4.425053358078003
+  minimum Time :0.1375277042388916
+  median Time :0.16276335716247559
+  ```
+- Moderate dataset
+  ```Results
+  Times to run 'pq_big_spender' Query 25 times on hdfs:/user/hl5679_nyu_edu/peopleModerateOpt1.parquet
+  Maximum Time :0.23857593536376953
+  minimum Time :0.12204527854919434
+  median Time :0.16771483421325684
+  ```
+
+- Big datasets
+  ```Results
+  Times to run 'pq_big_spender' Query 25 times on hdfs:/user/hl5679_nyu_edu/peopleBigOpt1.parquet
+  Maximum Time :0.5145378112792969
+  minimum Time :0.27966737747192383
+  median Time :0.3852248191833496
+  ```
+
+#### pq_brian_opt.py
+- Small dataset
+  ``` Results
+  Times to run 'pq_brian' Query 25 times on hdfs:/user/hl5679_nyu_edu/peopleSmallOpt1.parquet
+  Maximum Time :5.366575479507446
+  minimum Time :0.12938427925109863
+  median Time :0.18932390213012695
+
+  ```
+- Moderate dataset
+  ```Results
+  Times to run 'pq_brian' Query 25 times on hdfs:/user/hl5679_nyu_edu/peopleModerateOpt1.parquet
+  Maximum Time :0.3857882022857666
+  minimum Time :0.12352895736694336
+  median Time :0.18752574920654297
+  ```
+
+- Big datasets
+  ```Results
+  Times to run 'pq_brian' Query 25 times on hdfs:/user/hl5679_nyu_edu/peopleBigOpt1.parquet
+  Maximum Time :2.312089681625366
+  minimum Time :0.9227211475372314
+  median Time :0.9860661029815674
+  ```
+
+#### Notes
+- Performance on Small Datasets:
+  - Sum Orders: The optimized version shows a significantly increased maximum time, but similar median and minimum times.
+  - Big Spender: The optimized version shows an increased maximum time, but similar median and minimum times.
+  - Brian: The optimized version shows an increased maximum time, but similar median and minimum times.
+- Performance on Moderate Datasets:
+  - Sum Orders: The optimized version shows an increased maximum, median, and minimum times.
+  - Big Spender: The optimized version shows slightly increased times across the board.
+  - Brian: The optimized version shows slightly increased maximum, median, and minimum times.
+- Performance on Big Datasets:
+  - Sum Orders: The optimized version has higher maximum, median, and minimum times, showing potentially greater computational overhead or fault tolerance mechanisms.
+  - Big Spender: The optimized version remarkably reduces maximum time but shows an increase in minimum and median times.
+  - Brian: The optimized version significantly reduces the maximum time and maintains comparable median and minimum times.
+
+Increasing replication factor tends to increase the query times, especially noticeable in maximum times. This might indicate the trade off between fault tolerance and speed as replicating more will add some overhead, which can slow down query execution
+
+
 Basic Markdown Guide: https://www.markdownguide.org/basic-syntax/
