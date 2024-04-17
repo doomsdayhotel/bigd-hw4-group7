@@ -48,6 +48,8 @@ def csv_big_spender(spark, file_path):
                        WHERE rewards = FALSE
                        GROUP BY first_name, last_name, zipcode
                        HAVING SUM(orders) > 100''')
+    
+    return result
 
 
 def main(spark, datasets):
