@@ -16,7 +16,7 @@ import pandas as pd
 from pyspark.sql import SparkSession
 
 
-def pq_sum_orders(spark, file_path):
+def pq_brian(spark, file_path):
     '''Construct a basic query on the people dataset
 
     This function returns a uncomputed dataframe that
@@ -73,13 +73,13 @@ def main(spark, datasets):
     for file_path in datasets:
         #to make sure the query successfully ran. **already checked.** 
 
-        # df = pq_sum_orders(spark, file_path)
+        # df = pq_brian(spark, file_path)
 
         # print(f"Results for dataset {file_path}:")
         # df.show()
 
 
-        times = bench.benchmark(spark, 25, pq_sum_orders, file_path)
+        times = bench.benchmark(spark, 25, pq_brian, file_path)
 
         timing_results[file_path] = {
             'min_time': min(times),
