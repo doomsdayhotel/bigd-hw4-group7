@@ -188,6 +188,11 @@ ten least popular:
 
 What to include in your report:
 
+    - Tables of all numerical results (min, max, median) for each query/size/storage combination for part 2.3, 2.4 and 2.5.
+    - How do the results in parts 2.3, 2.4, and 2.5 compare?
+    - What did you try in part 2.5 to improve performance for each query?
+    - What worked, and what didn't work?
+
 2.3:
 
           1. For csv_sum_orders:
@@ -210,6 +215,8 @@ What to include in your report:
               +-----------+---------------------------------------+------------------------------------------+-------------------------------------+
 
             2. for csv_big_spender:
+
+            ** I'm aware I'm using a query probably simpler than what's asked (according to Avi's response on discord). But I was not able to run the longer query that actually sums order number by uique users. When running that query (especially for those optimization methods), the job got killed when it got to (mostly) the big dataset by the cluster (perhaps because it takes up too much memory). So I had to stick with this simple query instead so it would run consistently.
 
               Times to run csv_big_spender 25 times on hdfs:/user/pw44_nyu_edu/peopleSmall.csv:
               {'min_time': 0.1255478858947754, 'max_time': 4.697279453277588, 'median_time': 0.16434073448181152}
@@ -249,7 +256,7 @@ What to include in your report:
 
 2.4:
 
-\*\* I wrote a seperate script to convert csv files to parquet, named the script `csv_to_parquet_2-4.py` under the folder queries.
+\*\* I wrote a seperate script to convert csv files to parquet, `csv_to_parquet_2-4.py` under the folder queries.
 
           1. For pq_sum_orders:
 
@@ -270,6 +277,14 @@ What to include in your report:
               |median_time|                         0.23922491073608398|                            0.41255784034729004|                        2.4821882247924805|
               +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
 
+              Compared to 2.3:
+
+              For the small dataset, min time is almost the same, max time reduced by about 2 seconds, and median time is pretty close as well.
+              For the moderate dataset, min time is almost the same, max time reduced substantially by about 3 sec, and median time is quite similar.
+              For the big dataset, min, max, and median time all reduced significantly.
+
+              Converting the data from csv to parquet speeds up processing altogher for the big dataset, but it pretty much only affects max time for the small and moderate datasets.
+
           2. For pq_big_spender:
 
               Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleSmall.parquet:
@@ -288,6 +303,14 @@ What to include in your report:
               |   max_time|                           4.524384498596191|                            0.23901724815368652|                        2.4234678745269775|
               |median_time|                         0.14907360076904297|                             0.1421031951904297|                       0.37487244606018066|
               +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
+
+              Compared to 2.3:
+
+              For the small dataset, min, max, and median times are quite similar.
+              For the moderate dataset, min time dropped by 1 sec, max time reduced substantially by nearly 3 sec, and median time dropped about 1 sec. .
+              For the big dataset, min, max and media times decreased by 8-10 sec.
+
+              The larger the dataset, the more effective converting the csv data files to parquet is.
 
           3. For pq_brian:
 
@@ -308,12 +331,15 @@ What to include in your report:
               |median_time|                          0.2513551712036133|                             0.2550804615020752|                          4.08001971244812|
               +-----------+--------------------------------------------+-----------------------------------------------+------------------------------------------+
 
-2.5: Optimization
+              Compared to 2.3:
 
-    - Tables of all numerical results (min, max, median) for each query/size/storage combination for part 2.3, 2.4 and 2.5.
-    - What did you try in part 2.5 to improve performance for each query?
-    - How do the results in parts 2.3, 2.4, and 2.5 compare?
-    - What worked, and what didn't work?
+              For the small dataset, max time dropped 2 sec, but min time and max time both increased.
+              For the moderate dataset, min, max, and median time all decreased.
+              For the big dataset, min, max and media times all dropped substantially,
+
+              Converting the csv data files to parquet is effective for moderate and big datasets (the larger the dataset, the more effective converting the csv data files to parquet is.) However, it doesn't really work with small datasets for this query.
+
+2.5: Optimization
 
 \*\* See the optimization folder under optimization folder. For each query, there are two files: one for converting from csv to parquet files after implementing optimization methods and another script for running and benchmarking queries.
 
@@ -346,6 +372,14 @@ What to include in your report:
                 |median_time|                                      0.27867722511291504|                                          0.2500739097595215|                                       3.90116810798645|
                 +-----------+---------------------------------------------------------+------------------------------------------------------------+-------------------------------------------------------+
 
+                Compare to 2.4:
+
+                For the small dataset, min time didn't change, max and median times increased by a margin.
+                For the moderate dataset, min, max, and median time all reduced by a little.
+                For the big dataset, min time increased, max time decreased, median time increased.
+
+                Interesting - looks like it worked for the moderate dataset but didn't for the small and big dataset.
+
             B. for pq_big_spender:
 
                 Sorted columns 'orders' (desc) and 'rewards'.
@@ -364,6 +398,7 @@ What to include in your report:
                 Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt1BigSpender.parquet:
                 {'min_time': 0.13505053520202637, 'max_time': 0.19906377792358398, 'median_time': 0.14879655838012695}
 
+
                 +-----------+----------------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
                 |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt1BigSpender.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt1BigSpender.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt1BigSpender.parquet|
                 +-----------+----------------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
@@ -371,6 +406,14 @@ What to include in your report:
                 |   max_time|                                        2.5849785804748535|                                           1.4290950298309326|                                     0.19906377792358398|
                 |median_time|                                        0.1781754493713379|                                          0.14305806159973145|                                     0.14879655838012695|
                 +-----------+----------------------------------------------------------+-------------------------------------------------------------+--------------------------------------------------------+
+
+                Compare to 2.4:
+
+                For the small dataset, min time remained, max time reduced, and median time increased.
+                For the moderate dataset, min time remained, max time reduced, and median time remained.
+                For the big dataset, min, max, and median time all decreased.
+
+                Mixed results for the small the moderate datasets -- didn't really work. But worked for the big dataset.
 
             C. for pq_brian:
 
@@ -398,6 +441,14 @@ What to include in your report:
                 |   max_time|                                    2.527125835418701|                                      1.3962531089782715|                                  3.961683750152588|
                 |median_time|                                  0.17870140075683594|                                     0.13815689086914062|                                  3.897855758666992|
                 +-----------+-----------------------------------------------------+--------------------------------------------------------+---------------------------------------------------+
+
+                Compare to 2.4:
+
+                For the small dataset, min time decreased, max time increased, and median time decreased.
+                For the moderate dataset, min time decreased, max time increased, and median time decreased.
+                For the big dataset, min time, max time, and median time all decreased.
+
+                It worked for the big dataset, but it is interesting that for the small and moderate datasets, only the max time increased somehow. It worked for some part/mostly with the small and moderate datasets.
 
         2. Optimization Method #2 Change the replication factor
 
