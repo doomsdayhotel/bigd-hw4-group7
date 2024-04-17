@@ -37,6 +37,10 @@ def main(spark):
     df_big.write.mode('overwrite').parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet', mode='overwrite')
 
 
+    # df_small.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet')
+    # df_moderate.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleModerateOpt2.parquet')
+    # df_big.write.option("dfs.replication", "3").parquet('hdfs:/user/qy561_nyu_edu/peopleBigOpt2.parquet')
+
     # .option("dfs.replication", "3")
 
     # use the following code to check and preview parquet files
