@@ -464,6 +464,8 @@ What to include in your report:
             ...
             ```
 
+            ** I should make the note here (re- the issue with viewing the replication factor on the cluster). We later figured it out that the command 'hdfs dfs -stat %r <file path>' doesn't return the correct? replication number (1 for original csv files, 0 for all the files converted from those files.) Instead, we tried 'hadoop fs -ls <file path>', and it returned the replication number we were supposed to get. Theoritically the two commands should return the same replication number, so I don't know why one worked, and another didn't.
+
             A. for pq_sum_orders:
 
                 Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt2.parquet:
@@ -634,43 +636,76 @@ What to include in your report:
                     |median_time|                               0.18588781356811523|                                   0.1642611026763916|                              1.0468099117279053|
                     +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
 
+                    ompare to 2.4:
+
+                    For the small dataset, min time remained, max time increased, median time reduced.
+                    For the moderate dataset, min time remained, max time increased, median time reduced.
+                    For the moderate dataset, min, max, and median time all decreased.
+
+                    Mixed evidence for the small and moderate datasets
+
             3.2: Partition by columns
 
                 A. for pq_sum_orders:
 
-                    Repartitioned by column 'zipcode'.
+                    I. Repartitioned by column 'zipcode'.
 
-                    ```python
-                    df_small_repartitioned = df_small.repartition(col("zipcode"))
-                    df_moderate_repartitioned = df_moderate.repartition(col("zipcode"))
-                    df_big_repartitioned = df_big.repartition(col("zipcode"))
-                    ```
+                        ```python
+                        df_small_repartitioned = df_small.repartition(col("zipcode"))
+                        df_moderate_repartitioned = df_moderate.repartition(col("zipcode"))
+                        df_big_repartitioned = df_big.repartition(col("zipcode"))
+                        ```
 
-                    Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet:
-                    {'min_time': 0.18282175064086914, 'max_time': 8.369690895080566, 'median_time': 0.2533435821533203}
+                        Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet:
+                        {'min_time': 0.18282175064086914, 'max_time': 8.369690895080566, 'median_time': 0.2533435821533203}
 
-                    Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet:
-                    {'min_time': 3.556148052215576, 'max_time': 4.113949298858643, 'median_time': 3.896993637084961}
+                        Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet:
+                        {'min_time': 3.556148052215576, 'max_time': 4.113949298858643, 'median_time': 3.896993637084961}
 
-                    Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet:
-                    {'min_time': 3.6304237842559814, 'max_time': 4.363723516464233, 'median_time': 3.9076151847839355}
+                        Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet:
+                        {'min_time': 3.6304237842559814, 'max_time': 4.363723516464233, 'median_time': 3.9076151847839355}
 
-                    +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
-                    |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet|
-                    +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
-                    |   min_time|                                        0.18282175064086914|                                             3.556148052215576|                                       3.6304237842559814|
-                    |   max_time|                                          8.369690895080566|                                             4.113949298858643|                                        4.363723516464233|
-                    |median_time|                                         0.2533435821533203|                                             3.896993637084961|                                       3.9076151847839355|
-                    +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
+                        +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
+                        |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet|
+                        +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
+                        |   min_time|                                        0.18282175064086914|                                             3.556148052215576|                                       3.6304237842559814|
+                        |   max_time|                                          8.369690895080566|                                             4.113949298858643|                                        4.363723516464233|
+                        |median_time|                                         0.2533435821533203|                                             3.896993637084961|                                       3.9076151847839355|
+                        +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
+
+                    II. Repartitioned by column 'zipcode' and 'orders'.
+
+                        ```python
+                        df_small_repartitioned = df_small.repartition(col("zipcode"))
+                        df_moderate_repartitioned = df_moderate.repartition(col("zipcode"))
+                        df_big_repartitioned = df_big.repartition(col("zipcode"))
+                        ```
+
+                        Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet:
+                        {'min_time': 0.29547667503356934, 'max_time': 8.665595531463623, 'median_time': 0.5021686553955078}
+
+                        Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet:
+                        {'min_time': 0.31826066970825195, 'max_time': 2.1887950897216797, 'median_time': 0.4276137351989746}
+
+                        Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet:
+                        {'min_time': 1.6410319805145264, 'max_time': 4.232288599014282, 'median_time': 2.7818219661712646}
+
+                        +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
+                        |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet|
+                        +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
+                        |   min_time|                                        0.29547667503356934|                                           0.31826066970825195|                                       1.6410319805145264|
+                        |   max_time|                                          8.665595531463623|                                            2.1887950897216797|                                        4.232288599014282|
+                        |median_time|                                         0.5021686553955078|                                            0.4276137351989746|                                       2.7818219661712646|
+                        +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
 
                 B. for pq_big_spender:
 
                     Repartitioned by column 'orders'.
 
                     ```python
-                    df_small_repartitioned = df_small.repartition(col("orders"))
-                    df_moderate_repartitioned = df_moderate.repartition(col("orders"))
-                    df_big_repartitioned = df_big.repartition(col("orders"))
+                    df_small_repartitioned = df_small.repartition(col("zipcode"), col("orders"))
+                    df_moderate_repartitioned = df_moderate.repartition(col("zipcode"), col("orders"))
+                    df_big_repartitioned = df_big.repartition(col("zipcode"), col("orders"))
                     ```
                     Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2BigSpender.parquet:
                     {'min_time': 0.1383836269378662, 'max_time': 4.940512657165527, 'median_time': 0.17888879776000977}
