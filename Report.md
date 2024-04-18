@@ -1,8 +1,8 @@
 # Lab 3: Spark and Parquet Optimization Report
 
-Name: Bess Yang
+Name: Bess Yang, Iris Lu, Chloe Kwon
 
-NetID: qy561
+NetID: qy561, hl5679, ekk294
 
 ## Part 1: Spark
 
@@ -636,7 +636,7 @@ What to include in your report:
                     |median_time|                               0.18588781356811523|                                   0.1642611026763916|                              1.0468099117279053|
                     +-----------+--------------------------------------------------+-----------------------------------------------------+------------------------------------------------+
 
-                    ompare to 2.4:
+                    Compare to 2.4:
 
                     For the small dataset, min time remained, max time increased, median time reduced.
                     For the moderate dataset, min time remained, max time increased, median time reduced.
@@ -673,40 +673,24 @@ What to include in your report:
                         |median_time|                                         0.2533435821533203|                                             3.896993637084961|                                       3.9076151847839355|
                         +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
 
-                    II. Repartitioned by column 'zipcode' and 'orders'.
+                        Compare to 2.4:
 
-                        ```python
-                        df_small_repartitioned = df_small.repartition(col("zipcode"))
-                        df_moderate_repartitioned = df_moderate.repartition(col("zipcode"))
-                        df_big_repartitioned = df_big.repartition(col("zipcode"))
-                        ```
+                        For the small dataset, min time decreased, max and median time increased.
+                        For the moderate dataset, min, max, and median time all increased.
+                        For the big dataset, min and median time increased, and max time decreased.
 
-                        Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet:
-                        {'min_time': 0.29547667503356934, 'max_time': 8.665595531463623, 'median_time': 0.5021686553955078}
-
-                        Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet:
-                        {'min_time': 0.31826066970825195, 'max_time': 2.1887950897216797, 'median_time': 0.4276137351989746}
-
-                        Times to run pq_sum_orders 25 times on hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet:
-                        {'min_time': 1.6410319805145264, 'max_time': 4.232288599014282, 'median_time': 2.7818219661712646}
-
-                        +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
-                        |    Dataset|hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2SumOrders.parquet|hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2SumOrders.parquet|hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2SumOrders.parquet|
-                        +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
-                        |   min_time|                                        0.29547667503356934|                                           0.31826066970825195|                                       1.6410319805145264|
-                        |   max_time|                                          8.665595531463623|                                            2.1887950897216797|                                        4.232288599014282|
-                        |median_time|                                         0.5021686553955078|                                            0.4276137351989746|                                       2.7818219661712646|
-                        +-----------+-----------------------------------------------------------+--------------------------------------------------------------+---------------------------------------------------------+
+                        Didn't work.
 
                 B. for pq_big_spender:
 
-                    Repartitioned by column 'orders'.
+                    Repartitioned by column 'orders'. (Didn't include 'rewards' because since it's a Boolean, there will only be two partitions, which could get uneven and slow down processing if there's a large discrepency between the number of True and the number of False.)
 
                     ```python
-                    df_small_repartitioned = df_small.repartition(col("zipcode"), col("orders"))
-                    df_moderate_repartitioned = df_moderate.repartition(col("zipcode"), col("orders"))
-                    df_big_repartitioned = df_big.repartition(col("zipcode"), col("orders"))
+                    df_small_repartitioned = df_small.repartition(col("orders"))
+                    df_moderate_repartitioned = df_moderate.repartition(col(col("orders"))
+                    df_big_repartitioned = df_big.repartition(col("orders"))
                     ```
+
                     Times to run pq_big_spender 25 times on hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2BigSpender.parquet:
                     {'min_time': 0.1383836269378662, 'max_time': 4.940512657165527, 'median_time': 0.17888879776000977}
 
@@ -724,12 +708,18 @@ What to include in your report:
                     |median_time|                                         0.17888879776000977|                                            0.13005518913269043|                                        3.9002137184143066|
                     +-----------+------------------------------------------------------------+---------------------------------------------------------------+----------------------------------------------------------+
 
+                    Compare to 2.4:
+
+                    For the small dataset, min, max, and median time all increased.
+                    For the moderate dataset, min time and median time decreased, max time increased.
+                    For the big dataset, min, max, and median time all increased.
+
+                    Didn't work. Worked partially? for the moderate dataset.
+
 
                 C. for pq_brian:
 
-                    Repartitioning for this query is not a good idea. The column 'Loyalty' has low cardinality and will only lead to two partitions. The column 'first_name' has high cardinality (a large number of partitions but little data), and it might have an uneven distribution of names, leading to uneven distributions of partitions.
-
-                    However, I'll still repartition by column 'frist_name' for the sake of completing this task/for the sake of seeing what the results look like. It is expected repartitioning here will slow down processing instead of speeding it up.
+                    Repartitioned by column 'first_name'. (Didn't include 'loyalty' because since it's a Boolean, there will only be two partitions, which could get uneven and slow down processing if there's a large discrepency between the number of True and the number of False.)
 
                     ```python
                     df_small_repartitioned = df_small.repartition(col("first_name"))
@@ -753,5 +743,15 @@ What to include in your report:
                     |   max_time|                                      6.104769229888916|                                        0.1788628101348877|                                   0.3773176670074463|
                     |median_time|                                    0.17804932594299316|                                        0.1428384780883789|                                  0.26538968086242676|
                     +-----------+-------------------------------------------------------+----------------------------------------------------------+-----------------------------------------------------+
+
+                    Compare to 2.4:
+
+                    For the small dataset, min and median time decreased, max time increased.
+                    For the moderate dataset, min, max, and median time all decreased.
+                    For the big ddataset, min, max, and median time all decreased.
+
+                    Mostly worked.
+
+\*\* I want to ackowledge that I ran the scripts at different times spanning over a few days. There might be fluctuations in run time that are not due to the code itself but how 'crowded' the cluster was.
 
 Basic Markdown Guide: https://www.markdownguide.org/basic-syntax/
