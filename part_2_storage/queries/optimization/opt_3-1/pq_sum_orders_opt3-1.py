@@ -112,9 +112,9 @@ if __name__ == "__main__":
 
     # List of datasets to process
     datasets = [
-        'hdfs:/user/qy561_nyu_edu/peopleSmall.parquet',
-        'hdfs:/user/qy561_nyu_edu/peopleModerate.parquet',
-        'hdfs:/user/qy561_nyu_edu/peopleBig.parquet'
+        'hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-1.parquet',
+        'hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-1.parquet',
+        'hdfs:/user/qy561_nyu_edu/peopleBigOpt3-1.parquet'
     ]
     
     # Call main function with the list of datasets

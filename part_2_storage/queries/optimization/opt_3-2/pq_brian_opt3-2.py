@@ -39,7 +39,7 @@ def pq_sum_orders(spark, file_path):
 
     people.createOrReplaceTempView('people')
 
-    result = spark.sql('SELECT zipcode, SUM(orders) AS total_orders FROM people GROUP BY zipcode')
+    result = spark.sql("SELECT * FROM people WHERE first_name = 'Brian' AND loyalty = FALSE")
     return result
 
 
@@ -87,7 +87,7 @@ def main(spark, datasets):
             'median_time': np.median(times)
         }
         # If you want to see the results immediately after computation
-        print(f'Times to run pq_sum_orders 25 times on {file_path}:')
+        print(f'Times to run pq_brian 25 times on {file_path}:')
         print(timing_results[file_path])
 
     pd_df = pd.DataFrame(timing_results)
@@ -112,9 +112,9 @@ if __name__ == "__main__":
 
     # List of datasets to process
     datasets = [
-        'hdfs:/user/qy561_nyu_edu/peopleSmall.parquet',
-        'hdfs:/user/qy561_nyu_edu/peopleModerate.parquet',
-        'hdfs:/user/qy561_nyu_edu/peopleBig.parquet'
+        'hdfs:/user/qy561_nyu_edu/peopleSmallOpt3-2Brian.parquet',
+        'hdfs:/user/qy561_nyu_edu/peopleModerateOpt3-2Brian.parquet',
+        'hdfs:/user/qy561_nyu_edu/peopleBigOpt3-2Brian.parquet'
     ]
     
     # Call main function with the list of datasets

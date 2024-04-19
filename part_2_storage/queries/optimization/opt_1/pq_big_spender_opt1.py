@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''Python script to run benchmark on a query with a file path.
 Usage:
-    $ spark-submit --deploy-mode client csv_sum_orders.py <file_path>
+    $ spark-submit --deploy-mode client csv_big_spender.py <file_path>
 '''
 
 
@@ -16,11 +16,12 @@ import pandas as pd
 from pyspark.sql import SparkSession
 
 
-def pq_sum_orders(spark, file_path):
+def pq_big_spender(spark, file_path):
     '''Construct a basic query on the people dataset
 
     This function returns a uncomputed dataframe that
-    will compute the total orders grouped by zipcode
+    will contains users with at least 100 orders but
+    do not yet have a rewards card.
 
     Parameters
     ----------
@@ -31,15 +32,16 @@ def pq_sum_orders(spark, file_path):
         `hdfs:/user/pw44_nyu_edu/peopleSmall.csv`
 
     Returns
-    df_sum_orders:
-        Uncomputed dataframe of total orders grouped by zipcode
+    df_big_spender:
+        Uncomputed dataframe of users 
     '''
 
     people = spark.read.parquet(file_path)
-
+    
     people.createOrReplaceTempView('people')
 
-    result = spark.sql('SELECT zipcode, SUM(orders) AS total_orders FROM people GROUP BY zipcode')
+    result = spark.sql(' SELECT * FROM people WHERE orders >= 100 AND rewards = FALSE')
+    
     return result
 
 
@@ -50,21 +52,20 @@ def main(spark, datasets):
     spark : SparkSession object
     which_dataset : string, size of dataset to be analyzed
     '''
-
-    # times = bench.benchmark(spark, 25, csv_sum_orders, file_path)
+    # times = bench.benchmark(spark, 25, csv_big_spender, file_path)
 
     # min_time = min(times)
     # max_time = max(times)
     # median_time = np.median(times)
 
-    # print(f'Times to run csv_sum_orders 25 times on {file_path}:')
+    # print(f'Times to run csv_big_spender 25 times on {file_path}:')
     # print(times)
     # print(f'Minimum Time: {min_time}')
     # print(f'Maximum Time: {max_time}')
     # print(f'Median Time: {median_time}')
     
-    #to make sure the query ran successfully
-    # df = csv_sum_orders(spark, file_path)
+    # #to make sure the query ran successfully
+    # df = csv_big_spender(spark, file_path)
     # df.show()
 
     timing_results = {}
@@ -72,14 +73,13 @@ def main(spark, datasets):
     # Loop over the datasets and collect timing information
     for file_path in datasets:
         #to make sure the query successfully ran. **already checked.** 
-
-        # df = pq_sum_orders(spark, file_path)
-
+        # df = pq_big_spender(spark, file_path)
+        
         # print(f"Results for dataset {file_path}:")
         # df.show()
 
 
-        times = bench.benchmark(spark, 25, pq_sum_orders, file_path)
+        times = bench.benchmark(spark, 25, pq_big_spender, file_path)
 
         timing_results[file_path] = {
             'min_time': min(times),
@@ -87,7 +87,7 @@ def main(spark, datasets):
             'median_time': np.median(times)
         }
         # If you want to see the results immediately after computation
-        print(f'Times to run pq_sum_orders 25 times on {file_path}:')
+        print(f'Times to run pq_big_spender 25 times on {file_path}:')
         print(timing_results[file_path])
 
     pd_df = pd.DataFrame(timing_results)
@@ -109,14 +109,12 @@ if __name__ == "__main__":
 
     # main(spark, file_path)
 
-
     # List of datasets to process
     datasets = [
-        'hdfs:/user/qy561_nyu_edu/peopleSmall.parquet',
-        'hdfs:/user/qy561_nyu_edu/peopleModerate.parquet',
-        'hdfs:/user/qy561_nyu_edu/peopleBig.parquet'
+        'hdfs:/user/qy561_nyu_edu/peopleSmallOpt1BigSpender.parquet',
+        'hdfs:/user/qy561_nyu_edu/peopleModerateOpt1BigSpender.parquet',
+        'hdfs:/user/qy561_nyu_edu/peopleBigOpt1BigSpender.parquet'
     ]
     
     # Call main function with the list of datasets
     main(spark, datasets)
-

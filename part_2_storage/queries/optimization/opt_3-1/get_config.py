@@ -12,7 +12,13 @@ import sys
 # And pyspark.sql to get the spark session
 from pyspark.sql import SparkSession
 
+def get_spark_config(spark):
+    """Function to get and print the Spark session's configuration."""
 
+    num_executors = spark._jsc.sc().getExecutorMemoryStatus().size()
+    num_cores = int(spark.conf.get("spark.executor.instances")) * int(spark.conf.get("spark.executor.cores"))
+    print(f"Number of executors: {num_executors}")
+    print(f"Total number of cores: {num_cores}")
 
 def main(spark):
     '''Main routine for run for Storage optimization template.
@@ -24,9 +30,10 @@ def main(spark):
     #####--------------YOUR CODE STARTS HERE--------------#####
 
     #Use this template to as much as you want for your parquet saving and optimizations!
+    # Read the CSV files
+    # or instead of inferSchema, schema='first_name STRING, last_name STRING, age INT, income FLOAT, zipcode INT, orders INT, loyalty BOOLEAN, rewards BOOLEAN'? I forgot which one I used, but it worked
 
-
-
+    get_spark_config(spark)
 
 # Only enter this block if we're in main
 if __name__ == "__main__":
